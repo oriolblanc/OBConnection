@@ -1,3 +1,9 @@
 [submodule "AFNetworking"]
 	path = AFNetworking
 	url = git@github.com:oriolblanc/AFNetworking.git
+[submodule "JSON"]
+	path = JSON
+	url = git@github.com:oriolblanc/JSONKit.git
+[submodule "JSONKit"]
+	path = JSONKit
+	url = git@github.com:oriolblanc/JSONKit.git
