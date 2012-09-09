@@ -8,10 +8,6 @@
 
 #import "OBRequestParameters.h"
 
-@interface OBRequestParameters ()
-    @property (nonatomic, readonly) NSDictionary *parametersDictionary;
-@end
-
 @implementation OBRequestParameters
 @synthesize parametersDictionary = _parametersDictionary;
 
