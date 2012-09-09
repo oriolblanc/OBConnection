@@ -1,13 +1,13 @@
 //
-//  OBRequestParameters.m
+//  OBResponse.h
 //  OBConnections
 //
 //  Created by Oriol Blanc on 20/04/11.
 //  Copyright (c) 2012 Oriol Blanc. All rights reserved.
 //
 
-#import "OBRequestParameters.h"
+#import <Foundation/Foundation.h>
 
-@implementation OBRequestParameters
+@interface OBResponse : NSObject
 
 @end

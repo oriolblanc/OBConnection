@@ -2,7 +2,7 @@
 //  OBRequestParameters.h
 //  OBConnections
 //
-//  Created by Oriol Blanc on 05/09/11.
+//  Created by Oriol Blanc on 20/04/11.
 //  Copyright (c) 2012 Oriol Blanc. All rights reserved.
 //
 
