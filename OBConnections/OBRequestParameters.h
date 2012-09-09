@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 Oriol Blanc. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 @interface OBRequestParameters : NSObject
+
++ (OBRequestParameters *)emptyRequestParameters;
 
 @end
