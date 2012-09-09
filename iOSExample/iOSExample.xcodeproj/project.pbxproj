@@ -160,14 +160,14 @@
 		36EA4C8A15FC71EB007EA0E7 /* OBConnections */ = {
 			isa = PBXGroup;
 			children = (
-				36EA4CDD15FC72AB007EA0E7 /* OBRequestParameters.h */,
-				36EA4CDE15FC72AB007EA0E7 /* OBRequestParameters.m */,
-				36EA4CE015FC72FE007EA0E7 /* OBRequest.h */,
-				36EA4CE115FC72FE007EA0E7 /* OBRequest.m */,
-				36EA4CE315FC7471007EA0E7 /* OBResponse.h */,
-				36EA4CE415FC7471007EA0E7 /* OBResponse.m */,
 				36EA4CE615FC75AF007EA0E7 /* OBConnection.h */,
 				36EA4CE715FC75AF007EA0E7 /* OBConnection.m */,
+				36EA4CE015FC72FE007EA0E7 /* OBRequest.h */,
+				36EA4CE115FC72FE007EA0E7 /* OBRequest.m */,
+				36EA4CDD15FC72AB007EA0E7 /* OBRequestParameters.h */,
+				36EA4CDE15FC72AB007EA0E7 /* OBRequestParameters.m */,
+				36EA4CE315FC7471007EA0E7 /* OBResponse.h */,
+				36EA4CE415FC7471007EA0E7 /* OBResponse.m */,
 			);
 			name = OBConnections;
 			path = ../OBConnections;
