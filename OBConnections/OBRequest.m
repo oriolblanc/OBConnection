@@ -72,7 +72,8 @@
         parameters:(OBRequestParameters *)parameters
           isPublic:(BOOL)isPublic
 {
-    if ((self = [self initWithIsPublic:isPublic])) {
+    if ((self = [self initWithIsPublic:isPublic]))
+    {
         self.requestType = type;
         self.parameters = parameters;
         self.files = nil;
@@ -89,7 +90,8 @@
              files:(NSDictionary *)files
           isPublic:(BOOL)isPublic
 {
-    if ((self = [self initWithIsPublic:isPublic]) ) {
+    if ((self = [self initWithIsPublic:isPublic]) )
+    {
         self.requestType = type;
         self.parameters = parameters;
         self.files = files;
@@ -103,7 +105,8 @@
 - (id)initWithIsPublic:(BOOL)isPublic
 {
     self = [super init];
-    if (!self) {
+    if (!self)
+    {
         return nil;
     }
     
@@ -168,10 +171,10 @@
 
 - (void)dealloc
 {
+    [_resource release];
     [_parameters release];
     [_files release];
     [_requestHeaderFields release];
-    [_resource release];
     
     [super dealloc];
 }
