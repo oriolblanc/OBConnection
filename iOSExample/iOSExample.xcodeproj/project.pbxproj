@@ -26,10 +26,10 @@
 		36EA4CDA15FC723D007EA0E7 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EA4CCE15FC723D007EA0E7 /* AFURLConnectionOperation.m */; };
 		36EA4CDB15FC723D007EA0E7 /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EA4CD015FC723D007EA0E7 /* AFXMLRequestOperation.m */; };
 		36EA4CDC15FC723D007EA0E7 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EA4CD215FC723D007EA0E7 /* UIImageView+AFNetworking.m */; };
-		36EA4CDF15FC72AB007EA0E7 /* OBRequestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EA4CDE15FC72AB007EA0E7 /* OBRequestParameters.m */; };
-		36EA4CE215FC72FE007EA0E7 /* OBRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EA4CE115FC72FE007EA0E7 /* OBRequest.m */; };
-		36EA4CE515FC7471007EA0E7 /* OBResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EA4CE415FC7471007EA0E7 /* OBResponse.m */; };
-		36EA4CE815FC75AF007EA0E7 /* OBConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EA4CE715FC75AF007EA0E7 /* OBConnection.m */; };
+		36EA4D0215FC85CC007EA0E7 /* OBConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EA4CFB15FC85CC007EA0E7 /* OBConnection.m */; };
+		36EA4D0315FC85CC007EA0E7 /* OBRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EA4CFD15FC85CC007EA0E7 /* OBRequest.m */; };
+		36EA4D0415FC85CC007EA0E7 /* OBRequestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EA4CFF15FC85CC007EA0E7 /* OBRequestParameters.m */; };
+		36EA4D0515FC85CC007EA0E7 /* OBResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EA4D0115FC85CC007EA0E7 /* OBResponse.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,14 +69,14 @@
 		36EA4CD015FC723D007EA0E7 /* AFXMLRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFXMLRequestOperation.m; sourceTree = "<group>"; };
 		36EA4CD115FC723D007EA0E7 /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
 		36EA4CD215FC723D007EA0E7 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
-		36EA4CDD15FC72AB007EA0E7 /* OBRequestParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBRequestParameters.h; sourceTree = "<group>"; };
-		36EA4CDE15FC72AB007EA0E7 /* OBRequestParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBRequestParameters.m; sourceTree = "<group>"; };
-		36EA4CE015FC72FE007EA0E7 /* OBRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBRequest.h; sourceTree = "<group>"; };
-		36EA4CE115FC72FE007EA0E7 /* OBRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBRequest.m; sourceTree = "<group>"; };
-		36EA4CE315FC7471007EA0E7 /* OBResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBResponse.h; sourceTree = "<group>"; };
-		36EA4CE415FC7471007EA0E7 /* OBResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBResponse.m; sourceTree = "<group>"; };
-		36EA4CE615FC75AF007EA0E7 /* OBConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBConnection.h; sourceTree = "<group>"; };
-		36EA4CE715FC75AF007EA0E7 /* OBConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBConnection.m; sourceTree = "<group>"; };
+		36EA4CFA15FC85CC007EA0E7 /* OBConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBConnection.h; sourceTree = "<group>"; };
+		36EA4CFB15FC85CC007EA0E7 /* OBConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBConnection.m; sourceTree = "<group>"; };
+		36EA4CFC15FC85CC007EA0E7 /* OBRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBRequest.h; sourceTree = "<group>"; };
+		36EA4CFD15FC85CC007EA0E7 /* OBRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBRequest.m; sourceTree = "<group>"; };
+		36EA4CFE15FC85CC007EA0E7 /* OBRequestParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBRequestParameters.h; sourceTree = "<group>"; };
+		36EA4CFF15FC85CC007EA0E7 /* OBRequestParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBRequestParameters.m; sourceTree = "<group>"; };
+		36EA4D0015FC85CC007EA0E7 /* OBResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBResponse.h; sourceTree = "<group>"; };
+		36EA4D0115FC85CC007EA0E7 /* OBResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBResponse.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,7 +98,7 @@
 			children = (
 				36EA4CBD15FC723D007EA0E7 /* AFNetworking */,
 				36EA4C8515FC71EB007EA0E7 /* JSONKit */,
-				36EA4C8A15FC71EB007EA0E7 /* OBConnections */,
+				36EA4CF915FC85CC007EA0E7 /* OBConnection */,
 				36EA4C2915FC7160007EA0E7 /* iOSExample */,
 				36EA4C2215FC7160007EA0E7 /* Frameworks */,
 				36EA4C2015FC7160007EA0E7 /* Products */,
@@ -157,22 +157,6 @@
 			path = ../JSONKit;
 			sourceTree = "<group>";
 		};
-		36EA4C8A15FC71EB007EA0E7 /* OBConnections */ = {
-			isa = PBXGroup;
-			children = (
-				36EA4CE615FC75AF007EA0E7 /* OBConnection.h */,
-				36EA4CE715FC75AF007EA0E7 /* OBConnection.m */,
-				36EA4CE015FC72FE007EA0E7 /* OBRequest.h */,
-				36EA4CE115FC72FE007EA0E7 /* OBRequest.m */,
-				36EA4CDD15FC72AB007EA0E7 /* OBRequestParameters.h */,
-				36EA4CDE15FC72AB007EA0E7 /* OBRequestParameters.m */,
-				36EA4CE315FC7471007EA0E7 /* OBResponse.h */,
-				36EA4CE415FC7471007EA0E7 /* OBResponse.m */,
-			);
-			name = OBConnections;
-			path = ../OBConnections;
-			sourceTree = "<group>";
-		};
 		36EA4CBD15FC723D007EA0E7 /* AFNetworking */ = {
 			isa = PBXGroup;
 			children = (
@@ -200,6 +184,22 @@
 			);
 			name = AFNetworking;
 			path = ../AFNetworking/AFNetworking;
+			sourceTree = "<group>";
+		};
+		36EA4CF915FC85CC007EA0E7 /* OBConnection */ = {
+			isa = PBXGroup;
+			children = (
+				36EA4CFA15FC85CC007EA0E7 /* OBConnection.h */,
+				36EA4CFB15FC85CC007EA0E7 /* OBConnection.m */,
+				36EA4CFC15FC85CC007EA0E7 /* OBRequest.h */,
+				36EA4CFD15FC85CC007EA0E7 /* OBRequest.m */,
+				36EA4CFE15FC85CC007EA0E7 /* OBRequestParameters.h */,
+				36EA4CFF15FC85CC007EA0E7 /* OBRequestParameters.m */,
+				36EA4D0015FC85CC007EA0E7 /* OBResponse.h */,
+				36EA4D0115FC85CC007EA0E7 /* OBResponse.m */,
+			);
+			name = OBConnection;
+			path = ../OBConnection;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -279,10 +279,10 @@
 				36EA4CDA15FC723D007EA0E7 /* AFURLConnectionOperation.m in Sources */,
 				36EA4CDB15FC723D007EA0E7 /* AFXMLRequestOperation.m in Sources */,
 				36EA4CDC15FC723D007EA0E7 /* UIImageView+AFNetworking.m in Sources */,
-				36EA4CDF15FC72AB007EA0E7 /* OBRequestParameters.m in Sources */,
-				36EA4CE215FC72FE007EA0E7 /* OBRequest.m in Sources */,
-				36EA4CE515FC7471007EA0E7 /* OBResponse.m in Sources */,
-				36EA4CE815FC75AF007EA0E7 /* OBConnection.m in Sources */,
+				36EA4D0215FC85CC007EA0E7 /* OBConnection.m in Sources */,
+				36EA4D0315FC85CC007EA0E7 /* OBRequest.m in Sources */,
+				36EA4D0415FC85CC007EA0E7 /* OBRequestParameters.m in Sources */,
+				36EA4D0515FC85CC007EA0E7 /* OBResponse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

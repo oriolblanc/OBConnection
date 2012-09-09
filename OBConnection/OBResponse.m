@@ -1,13 +1,12 @@
 //
-//  OBResponse.h
-//  OBConnections
-//
+//  OBResponse.m
+OBConnection//
 //  Created by Oriol Blanc on 20/04/11.
 //  Copyright (c) 2012 Oriol Blanc. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "OBResponse.h"
 
-@interface OBResponse : NSObject
+@implementation OBResponse
 
 @end
