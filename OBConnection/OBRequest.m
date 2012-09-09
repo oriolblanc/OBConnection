@@ -9,9 +9,6 @@
 #import "OBRequest.h"
 
 @interface OBRequest ()
-    @property (nonatomic, assign) OBRequestMethodType requestType;
-    @property (nonatomic, retain) NSString *resource;
-    @property (nonatomic, retain) OBRequestParameters *parameters;
     @property (nonatomic, retain) NSDictionary *files;
     @property (nonatomic, retain) NSMutableDictionary *requestHeaderFields;
 

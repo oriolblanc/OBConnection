@@ -16,6 +16,9 @@ typedef enum {
 
 @interface OBRequest : NSObject
 
+@property (nonatomic, retain) NSString *resource;
+@property (nonatomic, retain) OBRequestParameters *parameters;
+@property (nonatomic, assign) OBRequestMethodType requestType;
 @property (nonatomic, assign) BOOL isPublic;
 @property (nonatomic, assign) BOOL retryLaterOnFailure;
 
