@@ -6,8 +6,15 @@
 //  Copyright (c) 2012 Oriol Blanc. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 @interface OBCache : NSObject
+@property (nonatomic, assign) BOOL debug;
+
++ (OBCache *)instance;
+
++ (void)cacheObject:(id<NSObject, NSCopying, NSCoding>)object forKey:(NSString *)key;
++ (id)cachedObjectForKey:(NSString *)key;
+
++ (void)invalidateCachedObjectForKey:(NSString *)key;
++ (void)invalidateAllCachedObjects;
 
 @end
