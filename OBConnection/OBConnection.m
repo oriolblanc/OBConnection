@@ -104,15 +104,12 @@
     dispatch_async(self.webProxyDispatchQueue, ^{
         if (cacheKey)
         {
-            if (cacheKey)
+            id cachedData = [OBCache cachedObjectForKey:cacheKey];
+            if (cachedData)
             {
-                id cachedData = [OBCache cachedObjectForKey:cacheKey];
-                if (cachedData)
-                {
-                    dispatch_sync(dispatch_get_main_queue(), ^{
-                        successCallback(cachedData, YES);
-                    });
-                }
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    successCallback(cachedData, YES);
+                });
             }
         }
         
