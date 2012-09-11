@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		36C336ED15FF2C4A00464DF6 /* OBCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C336EC15FF2C4A00464DF6 /* OBCache.m */; };
+		36C336F215FF2DDB00464DF6 /* EGOCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C336F115FF2DDB00464DF6 /* EGOCache.m */; };
 		36EA4C2415FC7160007EA0E7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36EA4C2315FC7160007EA0E7 /* UIKit.framework */; };
 		36EA4C2615FC7160007EA0E7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36EA4C2515FC7160007EA0E7 /* Foundation.framework */; };
 		36EA4C2815FC7160007EA0E7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36EA4C2715FC7160007EA0E7 /* CoreGraphics.framework */; };
@@ -33,6 +35,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		36C336EB15FF2C4A00464DF6 /* OBCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBCache.h; sourceTree = "<group>"; };
+		36C336EC15FF2C4A00464DF6 /* OBCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBCache.m; sourceTree = "<group>"; };
+		36C336F015FF2DDB00464DF6 /* EGOCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOCache.h; sourceTree = "<group>"; };
+		36C336F115FF2DDB00464DF6 /* EGOCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGOCache.m; sourceTree = "<group>"; };
 		36EA4C1F15FC7160007EA0E7 /* iOSExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		36EA4C2315FC7160007EA0E7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		36EA4C2515FC7160007EA0E7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -93,9 +99,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		36C336EF15FF2DDB00464DF6 /* EGOCache */ = {
+			isa = PBXGroup;
+			children = (
+				36C336F015FF2DDB00464DF6 /* EGOCache.h */,
+				36C336F115FF2DDB00464DF6 /* EGOCache.m */,
+			);
+			name = EGOCache;
+			path = ../EGOCache;
+			sourceTree = "<group>";
+		};
 		36EA4C1415FC7160007EA0E7 = {
 			isa = PBXGroup;
 			children = (
+				36C336EF15FF2DDB00464DF6 /* EGOCache */,
 				36EA4CBD15FC723D007EA0E7 /* AFNetworking */,
 				36EA4C8515FC71EB007EA0E7 /* JSONKit */,
 				36EA4CF915FC85CC007EA0E7 /* OBConnection */,
@@ -189,6 +206,8 @@
 		36EA4CF915FC85CC007EA0E7 /* OBConnection */ = {
 			isa = PBXGroup;
 			children = (
+				36C336EB15FF2C4A00464DF6 /* OBCache.h */,
+				36C336EC15FF2C4A00464DF6 /* OBCache.m */,
 				36EA4CFA15FC85CC007EA0E7 /* OBConnection.h */,
 				36EA4CFB15FC85CC007EA0E7 /* OBConnection.m */,
 				36EA4CFC15FC85CC007EA0E7 /* OBRequest.h */,
@@ -283,6 +302,8 @@
 				36EA4D0315FC85CC007EA0E7 /* OBRequest.m in Sources */,
 				36EA4D0415FC85CC007EA0E7 /* OBRequestParameters.m in Sources */,
 				36EA4D0515FC85CC007EA0E7 /* OBResponse.m in Sources */,
+				36C336ED15FF2C4A00464DF6 /* OBCache.m in Sources */,
+				36C336F215FF2DDB00464DF6 /* EGOCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
