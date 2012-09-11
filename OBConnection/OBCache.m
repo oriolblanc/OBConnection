@@ -34,8 +34,6 @@
         myInstance = [[self alloc] init];
         myInstance.debug = NO;
         myInstance.cacheQueue = dispatch_queue_create("OBCacheQueue", DISPATCH_QUEUE_CONCURRENT);
-        
-        [self invalidateAllCachedObjects];
     });
     
     return myInstance;
@@ -96,7 +94,9 @@
 
 + (void)debugLog:(NSString *)debug, ...
 {
-    if ([self instance].debug == YES)
+    BOOL shouldLog = [self instance].debug;
+    
+    if (shouldLog)
     {
         va_list vl;
         va_start(vl, debug);
