@@ -7,3 +7,6 @@
 [submodule "JSONKit"]
 	path = JSONKit
 	url = git@github.com:oriolblanc/JSONKit.git
+[submodule "EGOCache"]
+	path = EGOCache
+	url = git@github.com:oriolblanc/EGOCache.git
