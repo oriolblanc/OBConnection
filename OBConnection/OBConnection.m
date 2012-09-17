@@ -157,11 +157,14 @@
                 
                 if (wsResponse.statusCode == OBResponseCodeNoError)
                 {
-                    
                     NSString *cookie = [[(NSHTTPURLResponse *)response allHeaderFields] objectForKey:@"Set-Cookie"];
                     
                     if (cookie != nil && cookie.length > 0)
                     {
+                        if (self.delegate != nil && [self.delegate respondsToSelector:@selector(setSessionCookie:)])
+                        {
+                            [self.delegate setSessionCookie:cookie];
+                        }
                         [self setAuthenticated:YES];
                     }
                     

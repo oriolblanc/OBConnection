@@ -20,6 +20,7 @@ typedef void (^OBConnectionErrorCallback)(OBResponse *response, NSError *error);
 typedef id (^OBConnectionDataParsingBlock)(NSDictionary *data);
 
 @protocol OBConnectionDelegate <NSObject>
+- (void)setSessionCookie:(NSString *)cookie;
 - (NSString *)connectionBaseURL;
 - (NSString *)connectionBuildSecurityHeader;
 - (NSString *)connectionHeaderControl;
