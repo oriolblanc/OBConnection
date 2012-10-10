@@ -18,13 +18,14 @@
 typedef void (^OBConnectionSuccessCallback)(id data, BOOL cached);
 typedef void (^OBConnectionErrorCallback)(OBResponse *response, NSError *error);
 typedef id (^OBConnectionDataParsingBlock)(NSDictionary *data);
+typedef BOOL (^OBConnectionResponseHandlerBlock)(NSDictionary *JSON, NSDictionary *headerFields);
 
 @protocol OBConnectionDelegate <NSObject>
-- (void)setSessionCookie:(NSString *)cookie;
-- (NSString *)connectionBaseURL;
-- (NSString *)connectionBuildSecurityHeader;
-- (NSString *)connectionHeaderControl;
-- (NSDictionary *)connectionSecurityHeaderForPrivateRequest;
+    - (void)setSessionCookie:(NSString *)cookie;
+    - (NSString *)connectionBaseURL;
+    - (NSString *)connectionBuildSecurityHeader;
+    - (NSString *)connectionHeaderControl;
+    - (NSDictionary *)connectionSecurityHeaderForPrivateRequest;
 @end
 
 @class OBRequest;
@@ -35,8 +36,12 @@ typedef id (^OBConnectionDataParsingBlock)(NSDictionary *data);
 //      Register 
 // **************************
 
-+ (void)registerWithBaseUrl:(NSURL *)baseUrl delegate:(id<OBConnectionDelegate>)delegate;
-+ (void)registerWithBaseUrl:(NSURL *)baseUrl delegate:(id<OBConnectionDelegate>)delegate requestClass:(Class)requestClass responseClass:(Class)responseClass;
++ (void)registerWithBaseUrl:(NSURL *)baseUrl
+                   delegate:(id<OBConnectionDelegate>)delegate;
+
++ (void)registerWithBaseUrl:(NSURL *)baseUrl
+                   delegate:(id<OBConnectionDelegate>)delegate
+       responseHandlerBlock:(OBConnectionResponseHandlerBlock)responseHandlerBlock;
 
 // **************************
 //      Request

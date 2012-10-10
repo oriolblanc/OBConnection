@@ -18,8 +18,7 @@
     @property (nonatomic, assign) BOOL authenticated;
     @property (nonatomic, assign) id<OBConnectionDelegate> delegate;
 
-    @property (nonatomic, retain) Class requestClass;
-    @property (nonatomic, retain) Class responseClass;
+    @property (nonatomic, copy) OBConnectionResponseHandlerBlock responseHandlerBlock;
     @property (nonatomic, assign) dispatch_queue_t webProxyDispatchQueue;
 
     - (void)makeRequest:(OBRequest *)wsRequest
@@ -37,9 +36,7 @@
 @synthesize client = _client;
 @synthesize authenticated;
 @synthesize delegate = _delegate;
-
-@synthesize requestClass = _requestClass;
-@synthesize responseClass = _responseClass;
+@synthesize responseHandlerBlock = _responseHandlerBlock;
 @synthesize webProxyDispatchQueue;
 
 #pragma mark - Singleton
@@ -62,13 +59,16 @@
 
 + (void)registerWithBaseUrl:(NSURL *)baseUrl delegate:(id<OBConnectionDelegate>)delegate
 {
-    [self registerWithBaseUrl:baseUrl delegate:delegate requestClass:[OBRequest class] responseClass:[OBResponse class]];
+    [self registerWithBaseUrl:baseUrl delegate:delegate responseHandlerBlock:NULL];
 }
 
-+ (void)registerWithBaseUrl:(NSURL *)baseUrl delegate:(id<OBConnectionDelegate>)delegate requestClass:(Class)requestClass responseClass:(Class)responseClass
++ (void)registerWithBaseUrl:(NSURL *)baseUrl
+                   delegate:(id<OBConnectionDelegate>)delegate
+       responseHandlerBlock:(OBConnectionResponseHandlerBlock)responseHandlerBlock
 {
     OBConnection *connection = [OBConnection instance];
     connection.delegate = delegate;
+    connection.responseHandlerBlock = responseHandlerBlock;
     
     AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:baseUrl];
     connection.client = client;
@@ -153,24 +153,17 @@
             // do request
             AFHTTPRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSURLResponse *response, id JSON) {
                 
-                OBResponse *wsResponse = [OBResponse responseWithDictionary:JSON headerFields:[(NSHTTPURLResponse *)response allHeaderFields]];
-                
-                if (wsResponse.statusCode == OBResponseCodeNoError)
+                BOOL responseHandledWithoutErrors = YES;
+                if (self.responseHandlerBlock != NULL)
                 {
-                    NSString *cookie = [[(NSHTTPURLResponse *)response allHeaderFields] objectForKey:@"Set-Cookie"];
-                    
-                    if (cookie != nil && cookie.length > 0)
-                    {
-                        if (self.delegate != nil && [self.delegate respondsToSelector:@selector(setSessionCookie:)])
-                        {
-                            [self.delegate setSessionCookie:cookie];
-                        }
-                        [self setAuthenticated:YES];
-                    }
-                    
+                    responseHandledWithoutErrors = self.responseHandlerBlock(JSON, [(NSHTTPURLResponse *)response allHeaderFields]);
+                }
+                
+                if (responseHandledWithoutErrors)
+                {
                     if (successCallback)
                     {
-                        id parsedData = wsResponse.body;
+                        id parsedData = JSON;
                         
                         if (parsingBlock)
                         {
@@ -185,6 +178,19 @@
                         successCallback(parsedData, NO);
                     }
                 }
+                else
+                {
+                    if (errorCallback)
+                    {
+                        errorCallback([NSError errorWithDomain:nil code:0 userInfo:nil], nil); // @todo: Should create a proper NSError here
+                    }
+                }
+                
+                OBResponse *wsResponse = [OBResponse responseWithDictionary:JSON headerFields:[(NSHTTPURLResponse *)response allHeaderFields]];
+                
+                if (wsResponse.statusCode == OBResponseCodeNoError)
+                {
+                                    }
                 else
                 {
                     if (errorCallback)
@@ -247,6 +253,10 @@
 
 - (void)dealloc
 {
+    if (_responseHandlerBlock != NULL)
+    {
+        [_responseHandlerBlock release];
+    }
     [_client release];
     dispatch_release(self.webProxyDispatchQueue);
     
