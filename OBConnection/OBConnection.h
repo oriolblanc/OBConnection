@@ -60,4 +60,6 @@ typedef BOOL (^OBConnectionResponseHandlerBlock)(NSDictionary *JSON, NSDictionar
 
 + (void)invalidatePHPSessionCookie;
 
++ (void)addOperation:(NSOperation *)theOperation;
+
 @end

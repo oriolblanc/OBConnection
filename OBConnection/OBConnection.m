@@ -231,6 +231,11 @@
     }
 }
 
++ (void)addOperation:(NSOperation *)theOperation
+{
+    [[self instance].client.operationQueue addOperation:theOperation];
+}
+
 #pragma mark - Memory Management
 
 - (void)dealloc
