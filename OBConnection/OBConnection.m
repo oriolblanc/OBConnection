@@ -153,11 +153,7 @@
             // do request
             AFHTTPRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSURLResponse *response, id JSON) {
                 
-                BOOL responseHandledWithoutErrors = YES;
-                if (self.responseHandlerBlock != NULL)
-                {
-                    responseHandledWithoutErrors = self.responseHandlerBlock(JSON, [(NSHTTPURLResponse *)response allHeaderFields]);
-                }
+                BOOL responseHandledWithoutErrors = (self.responseHandlerBlock != NULL) ? responseHandledWithoutErrors = self.responseHandlerBlock(JSON, [(NSHTTPURLResponse *)response allHeaderFields]) : YES;
                 
                 if (responseHandledWithoutErrors)
                 {
@@ -185,20 +181,6 @@
                         errorCallback([NSError errorWithDomain:nil code:0 userInfo:nil], nil); // @todo: Should create a proper NSError here
                     }
                 }
-                
-                OBResponse *wsResponse = [OBResponse responseWithDictionary:JSON headerFields:[(NSHTTPURLResponse *)response allHeaderFields]];
-                
-                if (wsResponse.statusCode == OBResponseCodeNoError)
-                {
-                                    }
-                else
-                {
-                    if (errorCallback)
-                    {
-                        errorCallback(wsResponse, nil); // @todo: Should create a proper NSError here
-                    }
-                }
-                
                 
             } failure:^(NSURLRequest *request, NSURLResponse *response, NSError *error, id JSON) {
                 
