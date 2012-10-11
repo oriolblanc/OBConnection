@@ -178,7 +178,7 @@
                 {
                     if (errorCallback)
                     {
-                        errorCallback([NSError errorWithDomain:nil code:0 userInfo:nil], nil); // @todo: Should create a proper NSError here
+                        errorCallback(nil, nil); // @todo: Should create a proper NSError here
                     }
                 }
                 
