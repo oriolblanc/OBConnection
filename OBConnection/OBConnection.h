@@ -62,4 +62,6 @@ typedef BOOL (^OBConnectionResponseHandlerBlock)(NSDictionary *JSON, NSDictionar
 
 + (void)addOperation:(NSOperation *)theOperation;
 
++ (void)cancelAllConnections;
+
 @end

@@ -184,6 +184,8 @@
                 
             } failure:^(NSURLRequest *request, NSURLResponse *response, NSError *error, id JSON) {
                 
+                BOOL responseHandledWithoutErrors = (self.responseHandlerBlock != NULL) ? responseHandledWithoutErrors = self.responseHandlerBlock(JSON, [(NSHTTPURLResponse *)response allHeaderFields]) : YES;
+                
                 if (errorCallback)
                 {
                     errorCallback(NULL, error);
@@ -234,6 +236,11 @@
 + (void)addOperation:(NSOperation *)theOperation
 {
     [[self instance].client.operationQueue addOperation:theOperation];
+}
+
++ (void)cancelAllConnections
+{
+    [[self instance].client.operationQueue cancelAllOperations];
 }
 
 #pragma mark - Memory Management
