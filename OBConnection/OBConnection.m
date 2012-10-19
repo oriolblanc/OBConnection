@@ -19,7 +19,7 @@
     @property (nonatomic, assign) id<OBConnectionDelegate> delegate;
 
     @property (nonatomic, copy) OBConnectionResponseHandlerBlock responseHandlerBlock;
-    @property (nonatomic, assign) dispatch_queue_t webProxyDispatchQueue;
+    @property (nonatomic, assign) dispatch_queue_t connectionDispatchQueue;
 
     - (void)makeRequest:(OBRequest *)wsRequest
                 success:(OBConnectionSuccessCallback)successCallback
@@ -37,7 +37,7 @@
 @synthesize authenticated;
 @synthesize delegate = _delegate;
 @synthesize responseHandlerBlock = _responseHandlerBlock;
-@synthesize webProxyDispatchQueue;
+@synthesize connectionDispatchQueue;
 
 #pragma mark - Singleton
 
@@ -48,7 +48,7 @@
     
     dispatch_once(&dispatchOncePredicate, ^{
         myInstance = [[self alloc] init];
-        myInstance.webProxyDispatchQueue = dispatch_queue_create("WebProxyDispatchQueue", DISPATCH_QUEUE_CONCURRENT);
+        myInstance.connectionDispatchQueue = dispatch_queue_create("WebProxyDispatchQueue", DISPATCH_QUEUE_CONCURRENT);
         [myInstance setAuthenticated:NO];
         
         [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
@@ -101,7 +101,7 @@
               error:(OBConnectionErrorCallback)errorCallback
 {
     
-    dispatch_async(self.webProxyDispatchQueue, ^{
+    dispatch_async(self.connectionDispatchQueue, ^{
         if (cacheKey)
         {
             id cachedData = [OBCache cachedObjectForKey:cacheKey];
@@ -252,7 +252,7 @@
         [_responseHandlerBlock release];
     }
     [_client release];
-    dispatch_release(self.webProxyDispatchQueue);
+    dispatch_release(self.connectionDispatchQueue);
     
     [super dealloc];
 }
