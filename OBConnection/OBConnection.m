@@ -183,7 +183,7 @@
                 
             } failure:^(NSURLRequest *request, NSURLResponse *response, NSError *error, id JSON) {
                 
-                BOOL responseHandledWithoutErrors = (self.responseHandlerBlock != NULL) ? responseHandledWithoutErrors = self.responseHandlerBlock(JSON, [(NSHTTPURLResponse *)response allHeaderFields]) : YES;
+                self.responseHandlerBlock(JSON, [(NSHTTPURLResponse *)response allHeaderFields]);
                 
                 if (errorCallback)
                 {
