@@ -9,14 +9,13 @@
 // import all required headers for use OBConnection library
 #import "OBRequest.h"
 #import "OBRequestParameters.h"
-#import "OBResponse.h"
 #import "AFJSONRequestOperation.h"
 #import "AFHTTPClient.h"
 
 
 // callback types
 typedef void (^OBConnectionSuccessCallback)(id data, BOOL cached);
-typedef void (^OBConnectionErrorCallback)(OBResponse *response, NSError *error);
+typedef void (^OBConnectionErrorCallback)(id data, NSError *error);
 typedef id (^OBConnectionDataParsingBlock)(NSDictionary *data);
 typedef BOOL (^OBConnectionResponseHandlerBlock)(NSDictionary *JSON, NSDictionary *headerFields);
 

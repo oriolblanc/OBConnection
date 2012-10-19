@@ -187,7 +187,7 @@
                 
                 if (errorCallback)
                 {
-                    errorCallback(NULL, error);
+                    errorCallback(JSON, error);
                 }
                 
                 BOOL errorDueToConnectionProblem = response == nil;
