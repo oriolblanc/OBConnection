@@ -9,7 +9,6 @@
 
 #import "AFNetworkActivityIndicatorManager.h"
 #import "OBCache.h"
-#define kSeparator @"p=0_Kr9z-$M"
 
 #import "OBConnection.h"
 
