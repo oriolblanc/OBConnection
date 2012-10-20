@@ -23,7 +23,6 @@ typedef BOOL (^OBConnectionResponseHandlerBlock)(NSDictionary *JSON, NSDictionar
     - (void)setSessionCookie:(NSString *)cookie;
     - (NSString *)connectionBaseURL;
     - (NSString *)connectionBuildSecurityHeader;
-    - (NSString *)connectionHeaderControl;
     - (NSDictionary *)connectionSecurityHeaderForPrivateRequest;
 @end
 
