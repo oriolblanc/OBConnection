@@ -9,21 +9,21 @@
 // import all required headers for use OBConnection library
 #import "OBRequest.h"
 #import "OBRequestParameters.h"
-#import "OBResponse.h"
 #import "AFJSONRequestOperation.h"
 #import "AFHTTPClient.h"
 
 
 // callback types
 typedef void (^OBConnectionSuccessCallback)(id data, BOOL cached);
-typedef void (^OBConnectionErrorCallback)(OBResponse *response, NSError *error);
+typedef void (^OBConnectionErrorCallback)(id data, NSError *error);
 typedef id (^OBConnectionDataParsingBlock)(NSDictionary *data);
+typedef BOOL (^OBConnectionResponseHandlerBlock)(NSDictionary *JSON, NSDictionary *headerFields);
 
 @protocol OBConnectionDelegate <NSObject>
-- (NSString *)connectionBaseURL;
-- (NSString *)connectionBuildSecurityHeader;
-- (NSString *)connectionHeaderControl;
-- (NSDictionary *)connectionSecurityHeaderForPrivateRequest;
+    - (void)setSessionCookie:(NSString *)cookie;
+    - (NSString *)connectionBaseURL;
+    - (NSString *)connectionBuildSecurityHeader;
+    - (NSDictionary *)connectionSecurityHeaderForPrivateRequest;
 @end
 
 @class OBRequest;
@@ -34,8 +34,12 @@ typedef id (^OBConnectionDataParsingBlock)(NSDictionary *data);
 //      Register 
 // **************************
 
-+ (void)registerWithBaseUrl:(NSURL *)baseUrl delegate:(id<OBConnectionDelegate>)delegate;
-+ (void)registerWithBaseUrl:(NSURL *)baseUrl delegate:(id<OBConnectionDelegate>)delegate requestClass:(Class)requestClass responseClass:(Class)responseClass;
++ (void)registerWithBaseUrl:(NSURL *)baseUrl
+                   delegate:(id<OBConnectionDelegate>)delegate;
+
++ (void)registerWithBaseUrl:(NSURL *)baseUrl
+                   delegate:(id<OBConnectionDelegate>)delegate
+       responseHandlerBlock:(OBConnectionResponseHandlerBlock)responseHandlerBlock;
 
 // **************************
 //      Request
@@ -53,5 +57,9 @@ typedef id (^OBConnectionDataParsingBlock)(NSDictionary *data);
 
 
 + (void)invalidatePHPSessionCookie;
+
++ (void)addOperation:(NSOperation *)theOperation;
+
++ (void)cancelAllConnections;
 
 @end

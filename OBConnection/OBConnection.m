@@ -9,7 +9,6 @@
 
 #import "AFNetworkActivityIndicatorManager.h"
 #import "OBCache.h"
-#define kSeparator @"p=0_Kr9z-$M"
 
 #import "OBConnection.h"
 
@@ -18,9 +17,8 @@
     @property (nonatomic, assign) BOOL authenticated;
     @property (nonatomic, assign) id<OBConnectionDelegate> delegate;
 
-    @property (nonatomic, retain) Class requestClass;
-    @property (nonatomic, retain) Class responseClass;
-    @property (nonatomic, assign) dispatch_queue_t webProxyDispatchQueue;
+    @property (nonatomic, copy) OBConnectionResponseHandlerBlock responseHandlerBlock;
+    @property (nonatomic, assign) dispatch_queue_t connectionDispatchQueue;
 
     - (void)makeRequest:(OBRequest *)wsRequest
                 success:(OBConnectionSuccessCallback)successCallback
@@ -37,10 +35,8 @@
 @synthesize client = _client;
 @synthesize authenticated;
 @synthesize delegate = _delegate;
-
-@synthesize requestClass = _requestClass;
-@synthesize responseClass = _responseClass;
-@synthesize webProxyDispatchQueue;
+@synthesize responseHandlerBlock = _responseHandlerBlock;
+@synthesize connectionDispatchQueue;
 
 #pragma mark - Singleton
 
@@ -51,7 +47,7 @@
     
     dispatch_once(&dispatchOncePredicate, ^{
         myInstance = [[self alloc] init];
-        myInstance.webProxyDispatchQueue = dispatch_queue_create("WebProxyDispatchQueue", DISPATCH_QUEUE_CONCURRENT);
+        myInstance.connectionDispatchQueue = dispatch_queue_create("WebProxyDispatchQueue", DISPATCH_QUEUE_CONCURRENT);
         [myInstance setAuthenticated:NO];
         
         [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
@@ -62,13 +58,16 @@
 
 + (void)registerWithBaseUrl:(NSURL *)baseUrl delegate:(id<OBConnectionDelegate>)delegate
 {
-    [self registerWithBaseUrl:baseUrl delegate:delegate requestClass:[OBRequest class] responseClass:[OBResponse class]];
+    [self registerWithBaseUrl:baseUrl delegate:delegate responseHandlerBlock:NULL];
 }
 
-+ (void)registerWithBaseUrl:(NSURL *)baseUrl delegate:(id<OBConnectionDelegate>)delegate requestClass:(Class)requestClass responseClass:(Class)responseClass
++ (void)registerWithBaseUrl:(NSURL *)baseUrl
+                   delegate:(id<OBConnectionDelegate>)delegate
+       responseHandlerBlock:(OBConnectionResponseHandlerBlock)responseHandlerBlock
 {
     OBConnection *connection = [OBConnection instance];
     connection.delegate = delegate;
+    connection.responseHandlerBlock = responseHandlerBlock;
     
     AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:baseUrl];
     connection.client = client;
@@ -101,7 +100,7 @@
               error:(OBConnectionErrorCallback)errorCallback
 {
     
-    dispatch_async(self.webProxyDispatchQueue, ^{
+    dispatch_async(self.connectionDispatchQueue, ^{
         if (cacheKey)
         {
             id cachedData = [OBCache cachedObjectForKey:cacheKey];
@@ -153,21 +152,13 @@
             // do request
             AFHTTPRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSURLResponse *response, id JSON) {
                 
-                OBResponse *wsResponse = [OBResponse responseWithDictionary:JSON headerFields:[(NSHTTPURLResponse *)response allHeaderFields]];
+                BOOL responseHandledWithoutErrors = (self.responseHandlerBlock != NULL) ? responseHandledWithoutErrors = self.responseHandlerBlock(JSON, [(NSHTTPURLResponse *)response allHeaderFields]) : YES;
                 
-                if (wsResponse.statusCode == OBResponseCodeNoError)
+                if (responseHandledWithoutErrors)
                 {
-                    
-                    NSString *cookie = [[(NSHTTPURLResponse *)response allHeaderFields] objectForKey:@"Set-Cookie"];
-                    
-                    if (cookie != nil && cookie.length > 0)
-                    {
-                        [self setAuthenticated:YES];
-                    }
-                    
                     if (successCallback)
                     {
-                        id parsedData = wsResponse.body;
+                        id parsedData = JSON;
                         
                         if (parsingBlock)
                         {
@@ -186,16 +177,17 @@
                 {
                     if (errorCallback)
                     {
-                        errorCallback(wsResponse, nil); // @todo: Should create a proper NSError here
+                        errorCallback(nil, nil); // @todo: Should create a proper NSError here
                     }
                 }
                 
-                
             } failure:^(NSURLRequest *request, NSURLResponse *response, NSError *error, id JSON) {
+                
+                self.responseHandlerBlock(JSON, [(NSHTTPURLResponse *)response allHeaderFields]);
                 
                 if (errorCallback)
                 {
-                    errorCallback(NULL, error);
+                    errorCallback(JSON, error);
                 }
                 
                 BOOL errorDueToConnectionProblem = response == nil;
@@ -240,12 +232,26 @@
     }
 }
 
++ (void)addOperation:(NSOperation *)theOperation
+{
+    [[self instance].client.operationQueue addOperation:theOperation];
+}
+
++ (void)cancelAllConnections
+{
+    [[self instance].client.operationQueue cancelAllOperations];
+}
+
 #pragma mark - Memory Management
 
 - (void)dealloc
 {
+    if (_responseHandlerBlock != NULL)
+    {
+        [_responseHandlerBlock release];
+    }
     [_client release];
-    dispatch_release(self.webProxyDispatchQueue);
+    dispatch_release(self.connectionDispatchQueue);
     
     [super dealloc];
 }
