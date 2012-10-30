@@ -93,7 +93,7 @@
         self.parameters = parameters;
         self.files = files;
         
-        [self buildURL:_resource];
+        [self buildURL:resource];
     }
     
     return self;
