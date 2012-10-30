@@ -9,7 +9,6 @@
 #import "OBRequest.h"
 
 @interface OBRequest ()
-    @property (nonatomic, retain) NSDictionary *files;
     @property (nonatomic, retain) NSMutableDictionary *requestHeaderFields;
 
     + (id)requestWithIsPublic:(BOOL)_isPublic;
@@ -49,7 +48,7 @@
 + (id)requestWithType:(OBRequestMethodType)_method
              resource:(NSString *)_resource
            parameters:(OBRequestParameters *)_parameters
-                files:(NSDictionary *)_files
+                files:(OBRequestParameters *)_files
              isPublic:(BOOL)_isPublic
 {
     return [[[self alloc] initWithType:_method resource:_resource parameters:_parameters files:_files isPublic:_isPublic] autorelease];
@@ -84,7 +83,7 @@
 - (id)initWithType:(OBRequestMethodType)type
           resource:(NSString *)resource
         parameters:(OBRequestParameters *)parameters
-             files:(NSDictionary *)files
+             files:(OBRequestParameters *)files
           isPublic:(BOOL)isPublic
 {
     if ((self = [self initWithIsPublic:isPublic]) )

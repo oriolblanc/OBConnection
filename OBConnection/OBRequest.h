@@ -18,6 +18,7 @@ typedef enum {
 
 @property (nonatomic, retain) NSString *resource;
 @property (nonatomic, retain) OBRequestParameters *parameters;
+@property (nonatomic, retain) OBRequestParameters *files;
 @property (nonatomic, assign) OBRequestMethodType requestType;
 @property (nonatomic, assign) BOOL isPublic;
 @property (nonatomic, assign) BOOL retryLaterOnFailure;
@@ -34,7 +35,7 @@ typedef enum {
 + (id)requestWithType:(OBRequestMethodType)_type
              resource:(NSString *)_resource
            parameters:(OBRequestParameters *)_parameters
-                files:(NSDictionary *)_files
+                files:(OBRequestParameters *)_files
              isPublic:(BOOL)_isPublic;
 
 @end
