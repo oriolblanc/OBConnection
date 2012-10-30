@@ -129,7 +129,16 @@
                 }
                 case OBRequestMethodTypeMultiForm:
                 {
-                    errorCallback(nil,[NSError errorWithDomain:nil code:0 userInfo:[NSDictionary dictionaryWithObject:@"Type not implemented" forKey:@"userInfo"]]);
+                    request = [self.client multipartFormRequestWithMethod:@"POST" path:wsRequest.resource parameters:[wsRequest.parameters parametersDictionary] constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+                        
+                        UIImage *image = [[wsRequest.files parametersDictionary] objectForKey:@"image"];
+                        if ([image respondsToSelector:@selector(fixOrientation)])
+                        {
+                            [image performSelector:@selector(fixOrientation)];
+                        }
+                        NSData *imageData = UIImageJPEGRepresentation(image, 0.75);
+                        [formData appendPartWithFileData:imageData name:@"image" fileName:@"photo.png" mimeType:@"image/jpeg"];
+                    }];
                     break;
                 }
                 case OBRequestMethodTypeMethodPOST:
