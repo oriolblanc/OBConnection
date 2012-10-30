@@ -9,26 +9,29 @@
 #import "ViewController.h"
 
 @interface ViewController ()
-
+    - (IBAction)uploadButtonPressed:(id)sender;
 @end
 
 @implementation ViewController
 
-- (void)viewDidLoad
+- (IBAction)uploadButtonPressed:(id)sender
 {
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    UIImagePickerController *picker = [[[UIImagePickerController alloc] init] autorelease];
+    picker.delegate = self;
+    picker.allowsEditing = YES;
+    
+    [self presentModalViewController:picker animated:YES];
 }
 
-- (void)viewDidUnload
+#pragma mark - UIImagePickerController
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
+    // Access the uncropped image from info dictionary
+    UIImage * image = [info objectForKey:@"UIImagePickerControllerEditedImage"];
+    [picker dismissModalViewControllerAnimated:YES];
+    
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-}
 
 @end

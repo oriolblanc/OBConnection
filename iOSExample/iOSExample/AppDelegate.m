@@ -21,6 +21,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+
+    [OBConnection registerWithBaseUrl:[NSURL URLWithString:@"http://gossip.fegabe.es:9000/dev/"] delegate:self responseHandlerBlock:^BOOL(NSDictionary *JSON, NSDictionary *headerFields) {
+        // If you need check headers.
+        
+        return YES;
+    }];
+    
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
     self.viewController = [[[ViewController alloc] initWithNibName:@"ViewController" bundle:nil] autorelease];

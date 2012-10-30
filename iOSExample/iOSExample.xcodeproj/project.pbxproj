@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		364D5549164021EF000966F0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 364D5548164021EF000966F0 /* Default-568h@2x.png */; };
 		36C336ED15FF2C4A00464DF6 /* OBCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C336EC15FF2C4A00464DF6 /* OBCache.m */; };
 		36C336F215FF2DDB00464DF6 /* EGOCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C336F115FF2DDB00464DF6 /* EGOCache.m */; };
 		36EA4C2415FC7160007EA0E7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36EA4C2315FC7160007EA0E7 /* UIKit.framework */; };
@@ -31,10 +32,10 @@
 		36EA4D0215FC85CC007EA0E7 /* OBConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EA4CFB15FC85CC007EA0E7 /* OBConnection.m */; };
 		36EA4D0315FC85CC007EA0E7 /* OBRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EA4CFD15FC85CC007EA0E7 /* OBRequest.m */; };
 		36EA4D0415FC85CC007EA0E7 /* OBRequestParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EA4CFF15FC85CC007EA0E7 /* OBRequestParameters.m */; };
-		36EA4D0515FC85CC007EA0E7 /* OBResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EA4D0115FC85CC007EA0E7 /* OBResponse.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		364D5548164021EF000966F0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		36C336EB15FF2C4A00464DF6 /* OBCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBCache.h; sourceTree = "<group>"; };
 		36C336EC15FF2C4A00464DF6 /* OBCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBCache.m; sourceTree = "<group>"; };
 		36C336F015FF2DDB00464DF6 /* EGOCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOCache.h; sourceTree = "<group>"; };
@@ -81,8 +82,6 @@
 		36EA4CFD15FC85CC007EA0E7 /* OBRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBRequest.m; sourceTree = "<group>"; };
 		36EA4CFE15FC85CC007EA0E7 /* OBRequestParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBRequestParameters.h; sourceTree = "<group>"; };
 		36EA4CFF15FC85CC007EA0E7 /* OBRequestParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBRequestParameters.m; sourceTree = "<group>"; };
-		36EA4D0015FC85CC007EA0E7 /* OBResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBResponse.h; sourceTree = "<group>"; };
-		36EA4D0115FC85CC007EA0E7 /* OBResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBResponse.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +98,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		364D5547164021BA000966F0 /* OBConnection */ = {
+			isa = PBXGroup;
+			children = (
+				36C336EF15FF2DDB00464DF6 /* EGOCache */,
+				36EA4CBD15FC723D007EA0E7 /* AFNetworking */,
+				36EA4C8515FC71EB007EA0E7 /* JSONKit */,
+				36EA4CF915FC85CC007EA0E7 /* OBConnection */,
+			);
+			name = OBConnection;
+			sourceTree = "<group>";
+		};
 		36C336EF15FF2DDB00464DF6 /* EGOCache */ = {
 			isa = PBXGroup;
 			children = (
@@ -112,10 +122,7 @@
 		36EA4C1415FC7160007EA0E7 = {
 			isa = PBXGroup;
 			children = (
-				36C336EF15FF2DDB00464DF6 /* EGOCache */,
-				36EA4CBD15FC723D007EA0E7 /* AFNetworking */,
-				36EA4C8515FC71EB007EA0E7 /* JSONKit */,
-				36EA4CF915FC85CC007EA0E7 /* OBConnection */,
+				364D5547164021BA000966F0 /* OBConnection */,
 				36EA4C2915FC7160007EA0E7 /* iOSExample */,
 				36EA4C2215FC7160007EA0E7 /* Frameworks */,
 				36EA4C2015FC7160007EA0E7 /* Products */,
@@ -160,6 +167,7 @@
 				36EA4C2C15FC7160007EA0E7 /* InfoPlist.strings */,
 				36EA4C2F15FC7160007EA0E7 /* main.m */,
 				36EA4C3115FC7160007EA0E7 /* iOSExample-Prefix.pch */,
+				364D5548164021EF000966F0 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -214,8 +222,6 @@
 				36EA4CFD15FC85CC007EA0E7 /* OBRequest.m */,
 				36EA4CFE15FC85CC007EA0E7 /* OBRequestParameters.h */,
 				36EA4CFF15FC85CC007EA0E7 /* OBRequestParameters.m */,
-				36EA4D0015FC85CC007EA0E7 /* OBResponse.h */,
-				36EA4D0115FC85CC007EA0E7 /* OBResponse.m */,
 			);
 			name = OBConnection;
 			path = ../OBConnection;
@@ -274,6 +280,7 @@
 			files = (
 				36EA4C2E15FC7160007EA0E7 /* InfoPlist.strings in Resources */,
 				36EA4C3A15FC7160007EA0E7 /* ViewController.xib in Resources */,
+				364D5549164021EF000966F0 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,7 +308,6 @@
 				36EA4D0215FC85CC007EA0E7 /* OBConnection.m in Sources */,
 				36EA4D0315FC85CC007EA0E7 /* OBRequest.m in Sources */,
 				36EA4D0415FC85CC007EA0E7 /* OBRequestParameters.m in Sources */,
-				36EA4D0515FC85CC007EA0E7 /* OBResponse.m in Sources */,
 				36C336ED15FF2C4A00464DF6 /* OBCache.m in Sources */,
 				36C336F215FF2DDB00464DF6 /* EGOCache.m in Sources */,
 			);
@@ -379,10 +385,14 @@
 		36EA4C3E15FC7160007EA0E7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Oriol Blanc Gimeno";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Oriol Blanc Gimeno";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iOSExample/iOSExample-Prefix.pch";
 				INFOPLIST_FILE = "iOSExample/iOSExample-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "6BC6A2D9-247C-4C30-9AF2-1F63C044F054";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6BC6A2D9-247C-4C30-9AF2-1F63C044F054";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -390,10 +400,14 @@
 		36EA4C3F15FC7160007EA0E7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Oriol Blanc Gimeno";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Oriol Blanc Gimeno";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iOSExample/iOSExample-Prefix.pch";
 				INFOPLIST_FILE = "iOSExample/iOSExample-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "6BC6A2D9-247C-4C30-9AF2-1F63C044F054";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6BC6A2D9-247C-4C30-9AF2-1F63C044F054";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
