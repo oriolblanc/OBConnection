@@ -30,9 +30,9 @@
     [parameters setValue:@"8a7539e238429a6b0138429b3b0a0001" forKey:@"userId"];
     
     OBRequestParameters *files = [OBRequestParameters emptyRequestParameters];
-    [files setValue:imageToUpload forKey:@"image"];
+    [files setValue:imageToUpload forKey:@"avatar"];
     
-    OBRequest *uploadImageRequest = [OBRequest requestWithType:OBRequestMethodTypeMultiForm resource:@"user/avatar" parameters:parameters files:files isPublic:YES];
+    OBRequest *uploadImageRequest = [OBRequest requestWithType:OBRequestMethodTypeMultiForm resource:@"post.php?dir=example" parameters:parameters files:files isPublic:YES];
     
     [OBConnection makeRequest:uploadImageRequest success:^(id data, BOOL cached) {
         NSLog(@"success");

@@ -22,7 +22,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 
-    [OBConnection registerWithBaseUrl:[NSURL URLWithString:@"http://gossip.fegabe.es:9000/dev/"] delegate:self responseHandlerBlock:^BOOL(NSDictionary *JSON, NSDictionary *headerFields) {
+    [OBConnection registerWithBaseUrl:[NSURL URLWithString:@"http://posttestserver.com/"] delegate:self responseHandlerBlock:^BOOL(NSDictionary *JSON, NSDictionary *headerFields) {
         // If you need check headers.
         
         return YES;
