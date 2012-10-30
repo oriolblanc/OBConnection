@@ -9,9 +9,7 @@
 // import all required headers for use OBConnection library
 #import "OBRequest.h"
 #import "OBRequestParameters.h"
-#import "AFJSONRequestOperation.h"
-#import "AFHTTPClient.h"
-
+#import "OBCache.h"
 
 // callback types
 typedef void (^OBConnectionSuccessCallback)(id data, BOOL cached);
@@ -20,10 +18,11 @@ typedef id (^OBConnectionDataParsingBlock)(NSDictionary *data);
 typedef BOOL (^OBConnectionResponseHandlerBlock)(NSDictionary *JSON, NSDictionary *headerFields);
 
 @protocol OBConnectionDelegate <NSObject>
-    - (void)setSessionCookie:(NSString *)cookie;
-    - (NSString *)connectionBaseURL;
-    - (NSString *)connectionBuildSecurityHeader;
-    - (NSDictionary *)connectionSecurityHeaderForPrivateRequest;
+    @optional
+        - (void)setSessionCookie:(NSString *)cookie;
+        - (NSString *)connectionBaseURL;
+        - (NSString *)connectionBuildSecurityHeader;
+        - (NSDictionary *)connectionSecurityHeaderForPrivateRequest;
 @end
 
 @class OBRequest;

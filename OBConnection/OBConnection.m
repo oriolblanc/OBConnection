@@ -8,6 +8,9 @@
 
 
 #import "AFNetworkActivityIndicatorManager.h"
+#import "AFJSONRequestOperation.h"
+#import "AFHTTPClient.h"
+
 #import "OBCache.h"
 
 #import "OBConnection.h"
