@@ -64,6 +64,11 @@
     return [_parametersDictionary description];
 }
 
+- (NSDictionary *)parametersDictionary
+{
+    return (_parametersDictionary.allKeys.count == 0) ? nil : _parametersDictionary;
+}
+
 #pragma mark - Memory Mangement
 
 - (void)dealloc
