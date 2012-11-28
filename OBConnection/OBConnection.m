@@ -16,62 +16,53 @@
 #import "OBConnection.h"
 
 @interface OBConnection ()
-    @property (nonatomic, retain) AFHTTPClient *client;
-    @property (nonatomic, assign) BOOL authenticated;
-    @property (nonatomic, assign) id<OBConnectionDelegate> delegate;
+@property(nonatomic, retain) AFHTTPClient *client;
+@property(nonatomic, assign) BOOL authenticated;
+@property(nonatomic, assign) dispatch_queue_t connectionDispatchQueue;
 
-    @property (nonatomic, copy) OBConnectionResponseHandlerBlock responseHandlerBlock;
-    @property (nonatomic, assign) dispatch_queue_t connectionDispatchQueue;
+- (void)makeRequest:(OBRequest *)wsRequest
+            success:(OBConnectionSuccessCallback)successCallback
+              error:(OBConnectionErrorCallback)errorCallback;
 
-    - (void)makeRequest:(OBRequest *)wsRequest
-                success:(OBConnectionSuccessCallback)successCallback
-                  error:(OBConnectionErrorCallback)errorCallback;
-
-    - (void)makeRequest:(OBRequest *)wsRequest
-           withCacheKey:(NSString *)cacheKey
-             parseBlock:(OBConnectionDataParsingBlock)parsingBlock
-                success:(OBConnectionSuccessCallback)successCallback
-                  error:(OBConnectionErrorCallback)errorCallback;
+- (void)makeRequest:(OBRequest *)wsRequest
+       withCacheKey:(NSString *)cacheKey
+         parseBlock:(OBConnectionDataParsingBlock)parsingBlock
+            success:(OBConnectionSuccessCallback)successCallback
+              error:(OBConnectionErrorCallback)errorCallback;
 @end
 
 @implementation OBConnection
 @synthesize client = _client;
 @synthesize authenticated;
-@synthesize delegate = _delegate;
 @synthesize responseHandlerBlock = _responseHandlerBlock;
 @synthesize connectionDispatchQueue;
 
 #pragma mark - Singleton
 
-+ (OBConnection *)instance
-{
++ (OBConnection *)instance {
     static dispatch_once_t dispatchOncePredicate;
     static OBConnection *myInstance = nil;
-    
+
     dispatch_once(&dispatchOncePredicate, ^{
         myInstance = [[self alloc] init];
         myInstance.connectionDispatchQueue = dispatch_queue_create("WebProxyDispatchQueue", DISPATCH_QUEUE_CONCURRENT);
         [myInstance setAuthenticated:NO];
-        
+
         [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
-	});
-    
+    });
+
     return myInstance;
 }
 
-+ (void)registerWithBaseUrl:(NSURL *)baseUrl delegate:(id<OBConnectionDelegate>)delegate
-{
-    [self registerWithBaseUrl:baseUrl delegate:delegate responseHandlerBlock:NULL];
++ (void)registerWithBaseUrl:(NSURL *)baseUrl {
+    [self registerWithBaseUrl:baseUrl responseHandlerBlock:NULL];
 }
 
 + (void)registerWithBaseUrl:(NSURL *)baseUrl
-                   delegate:(id<OBConnectionDelegate>)delegate
-       responseHandlerBlock:(OBConnectionResponseHandlerBlock)responseHandlerBlock
-{
+       responseHandlerBlock:(OBConnectionResponseHandlerBlock)responseHandlerBlock {
     OBConnection *connection = [OBConnection instance];
-    connection.delegate = delegate;
     connection.responseHandlerBlock = responseHandlerBlock;
-    
+
     AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:baseUrl];
     connection.client = client;
     [client release];
@@ -80,8 +71,7 @@
 
 + (void)makeRequest:(OBRequest *)wsRequest
             success:(OBConnectionSuccessCallback)successCallback
-              error:(OBConnectionErrorCallback)errorCallback
-{
+              error:(OBConnectionErrorCallback)errorCallback {
     [[self instance] makeRequest:wsRequest success:successCallback error:errorCallback];
 }
 
@@ -89,8 +79,7 @@
        withCacheKey:(NSString *)cacheKey
          parseBlock:(OBConnectionDataParsingBlock)parsingBlock
             success:(OBConnectionSuccessCallback)successCallback
-              error:(OBConnectionErrorCallback)errorCallback
-{
+              error:(OBConnectionErrorCallback)errorCallback {
     [[self instance] makeRequest:wsRequest withCacheKey:cacheKey parseBlock:parsingBlock success:successCallback error:errorCallback];
 }
 
@@ -100,43 +89,36 @@
        withCacheKey:(NSString *)cacheKey
          parseBlock:(OBConnectionDataParsingBlock)parsingBlock
             success:(OBConnectionSuccessCallback)successCallback
-              error:(OBConnectionErrorCallback)errorCallback
-{
-    
+              error:(OBConnectionErrorCallback)errorCallback {
+
     dispatch_async(self.connectionDispatchQueue, ^{
-        if (cacheKey)
-        {
+        if (cacheKey) {
             id cachedData = [OBCache cachedObjectForKey:cacheKey];
-            if (cachedData)
-            {
+            if (cachedData) {
                 dispatch_sync(dispatch_get_main_queue(), ^{
                     successCallback(cachedData, YES);
                 });
             }
         }
-        
+
         dispatch_async(dispatch_get_main_queue(), ^{
             // run the request
-            
+
             NSMutableURLRequest *request = nil;
-            
+
             switch (wsRequest.requestType) {
                 case OBRequestMethodTypeMethodGET:
-                default:
-                {
+                default: {
                     request = [self.client requestWithMethod:@"GET" path:wsRequest.resource parameters:[wsRequest.parameters parametersDictionary]];
                     break;
                 }
-                case OBRequestMethodTypeMultiForm:
-                {
-                    request = [self.client multipartFormRequestWithMethod:@"POST" path:wsRequest.resource parameters:[wsRequest.parameters parametersDictionary] constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-                        
+                case OBRequestMethodTypeMultiForm: {
+                    request = [self.client multipartFormRequestWithMethod:@"POST" path:wsRequest.resource parameters:[wsRequest.parameters parametersDictionary] constructingBodyWithBlock:^(id <AFMultipartFormData> formData) {
+
                         [[wsRequest.files parametersDictionary] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-                            if ([obj isKindOfClass:[UIImage class]])
-                            {
-                                UIImage *image = (UIImage *)obj;
-                                if ([image respondsToSelector:@selector(fixOrientation)])
-                                {
+                            if ([obj isKindOfClass:[UIImage class]]) {
+                                UIImage *image = (UIImage *) obj;
+                                if ([image respondsToSelector:@selector(fixOrientation)]) {
                                     [image performSelector:@selector(fixOrientation)];
                                 }
                                 NSData *imageData = UIImageJPEGRepresentation(image, 0.75);
@@ -146,76 +128,63 @@
                     }];
                     break;
                 }
-                case OBRequestMethodTypeMethodPOST:
-                {
+                case OBRequestMethodTypeMethodPOST: {
                     request = [self.client requestWithMethod:@"POST" path:wsRequest.resource parameters:[wsRequest.parameters parametersDictionary]];
                     break;
                 }
             }
-            
+
             // we should authenticate the session for private requests
             NSMutableDictionary *allHeaders = [[request.allHTTPHeaderFields mutableCopy] autorelease];
-            if (!wsRequest.isPublic)
-            {
-                NSDictionary *securityHeader = [self.delegate connectionSecurityHeaderForPrivateRequest];
-                
-                if (securityHeader != nil)
-                {
+            if (!wsRequest.isPublic) {
+                NSDictionary *securityHeader = self.buildSecurityHeaderRequestBlock();
+                if (securityHeader != nil) {
                     [allHeaders addEntriesFromDictionary:securityHeader];
                 }
             }
             [request setAllHTTPHeaderFields:allHeaders];
-            
+
             // do request
             AFHTTPRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSURLResponse *response, id JSON) {
-                
-                BOOL responseHandledWithoutErrors = (self.responseHandlerBlock != NULL) ? responseHandledWithoutErrors = self.responseHandlerBlock(JSON, [(NSHTTPURLResponse *)response allHeaderFields]) : YES;
-                
-                if (responseHandledWithoutErrors)
-                {
-                    if (successCallback)
-                    {
+
+                BOOL responseHandledWithoutErrors = (self.responseHandlerBlock != NULL) ? responseHandledWithoutErrors = self.responseHandlerBlock(JSON, [(NSHTTPURLResponse *) response allHeaderFields]) : YES;
+
+                if (responseHandledWithoutErrors) {
+                    if (successCallback) {
                         id parsedData = JSON;
-                        
-                        if (parsingBlock)
-                        {
+
+                        if (parsingBlock) {
                             parsedData = parsingBlock(parsedData);
                         }
-                        
-                        if (cacheKey)
-                        {
+
+                        if (cacheKey) {
                             [OBCache cacheObject:parsedData forKey:cacheKey];
                         }
-                        
+
                         successCallback(parsedData, NO);
                     }
                 }
-                else
-                {
-                    if (errorCallback)
-                    {
+                else {
+                    if (errorCallback) {
                         errorCallback(nil, nil); // @todo: Should create a proper NSError here
                     }
                 }
-                
-            } failure:^(NSURLRequest *request, NSURLResponse *response, NSError *error, id JSON) {
-                
-                self.responseHandlerBlock(JSON, [(NSHTTPURLResponse *)response allHeaderFields]);
-                
-                if (errorCallback)
-                {
+
+            }                                                                                   failure:^(NSURLRequest *request, NSURLResponse *response, NSError *error, id JSON) {
+
+                self.responseHandlerBlock(JSON, [(NSHTTPURLResponse *) response allHeaderFields]);
+
+                if (errorCallback) {
                     errorCallback(JSON, error);
                 }
-                
+
                 BOOL errorDueToConnectionProblem = response == nil;
-                if (wsRequest.retryLaterOnFailure && errorDueToConnectionProblem)
-                {
+                if (wsRequest.retryLaterOnFailure && errorDueToConnectionProblem) {
                     //[[WebServiceRequestRetryQueue instance] addRequestToRetryQueue:wsRequest];
                 }
             }];
-            
-            if (operation)
-            {
+
+            if (operation) {
                 [self.client.operationQueue addOperation:operation];
             }
         });
@@ -224,52 +193,74 @@
 
 - (void)makeRequest:(OBRequest *)wsRequest
             success:(OBConnectionSuccessCallback)successCallback
-              error:(OBConnectionErrorCallback)errorCallback
-{
+              error:(OBConnectionErrorCallback)errorCallback {
     [self makeRequest:wsRequest withCacheKey:nil parseBlock:NULL success:successCallback error:errorCallback];
 }
 
-+ (void)invalidatePHPSessionCookie
-{
++ (void)invalidatePHPSessionCookie {
     NSHTTPCookie *phpSessionCookie = nil;
-    
-    for (NSHTTPCookie *cookie in [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies])
-    {
-        if ([cookie.name isEqualToString:@"PHPSESSID"])
-        {
+
+    for (NSHTTPCookie *cookie in [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]) {
+        if ([cookie.name isEqualToString:@"PHPSESSID"]) {
             phpSessionCookie = cookie;
             break;
         }
     }
-    
-    if (phpSessionCookie)
-    {
+
+    if (phpSessionCookie) {
         [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:phpSessionCookie];
-        [[[self class] instance] setAuthenticated:NO];
+        [[self instance] setAuthenticated:NO];
     }
 }
 
-+ (void)addOperation:(NSOperation *)theOperation
-{
++ (void)addOperation:(NSOperation *)theOperation {
     [[self instance].client.operationQueue addOperation:theOperation];
 }
 
-+ (void)cancelAllConnections
-{
++ (void)cancelAllConnections {
     [[self instance].client.operationQueue cancelAllOperations];
 }
 
+#pragma mark - Setting up Blocks
+#pragma mark - Response Handler
+
++ (void)setResponseHandlerBlock:(OBConnectionResponseHandlerBlock)responseHandlerBlock {
+    [self instance].responseHandlerBlock = responseHandlerBlock;
+}
+
++ (OBConnectionResponseHandlerBlock)responseHandlerBlock {
+    return [self instance].responseHandlerBlock;
+}
+
+#pragma mark - Security Header Request
++ (void)setBuildSecurityHeaderRequests:(OBConnectionBuildSecurityHeaderRequests)buildSecurityHeaderRequestsBlock {
+    [self instance].buildSecurityHeaderRequestBlock = buildSecurityHeaderRequestsBlock;
+}
+
++ (OBConnectionBuildSecurityHeaderRequests)buildSecurityHeaderRequests {
+    return [self instance].buildSecurityHeaderRequestBlock;
+}
+
+#pragma mark - URL For A Certain Resource
+
++ (void)setBuildURLForResourceBlock:(OBConnectionBuildURLForResourceBlock)buildURLForResourceBlock {
+    [self instance].buildURLForResourceBlock = buildURLForResourceBlock;
+}
+
++ (OBConnectionBuildURLForResourceBlock)buildURLForResourceBlock {
+    return [self instance].buildURLForResourceBlock;
+}
+
+
 #pragma mark - Memory Management
 
-- (void)dealloc
-{
-    if (_responseHandlerBlock != NULL)
-    {
+- (void)dealloc {
+    if (_responseHandlerBlock != NULL) {
         [_responseHandlerBlock release];
     }
     [_client release];
     dispatch_release(self.connectionDispatchQueue);
-    
+
     [super dealloc];
 }
 

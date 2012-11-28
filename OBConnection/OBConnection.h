@@ -13,31 +13,32 @@
 
 // callback types
 typedef void (^OBConnectionSuccessCallback)(id data, BOOL cached);
+
 typedef void (^OBConnectionErrorCallback)(id data, NSError *error);
+
 typedef id (^OBConnectionDataParsingBlock)(NSDictionary *data);
+
 typedef BOOL (^OBConnectionResponseHandlerBlock)(NSDictionary *JSON, NSDictionary *headerFields);
 
-@protocol OBConnectionDelegate <NSObject>
-    @optional
-        - (void)setSessionCookie:(NSString *)cookie;
-        - (NSString *)connectionBaseURL;
-        - (NSString *)connectionBuildSecurityHeader;
-        - (NSDictionary *)connectionSecurityHeaderForPrivateRequest;
-@end
+typedef NSDictionary *(^OBConnectionBuildSecurityHeaderRequests)(void);
+
+typedef NSString *(^OBConnectionBuildURLForResourceBlock)(NSString *resource, BOOL isAuthenticated);
 
 @class OBRequest;
 
 @interface OBConnection : NSObject
 
+@property(nonatomic, copy) OBConnectionResponseHandlerBlock responseHandlerBlock;
+@property(nonatomic, copy) OBConnectionBuildSecurityHeaderRequests buildSecurityHeaderRequestBlock;
+@property(nonatomic, copy) OBConnectionBuildURLForResourceBlock buildURLForResourceBlock;
+
 // **************************
 //      Register 
 // **************************
 
-+ (void)registerWithBaseUrl:(NSURL *)baseUrl
-                   delegate:(id<OBConnectionDelegate>)delegate;
++ (void)registerWithBaseUrl:(NSURL *)baseUrl;
 
 + (void)registerWithBaseUrl:(NSURL *)baseUrl
-                   delegate:(id<OBConnectionDelegate>)delegate
        responseHandlerBlock:(OBConnectionResponseHandlerBlock)responseHandlerBlock;
 
 // **************************
@@ -60,5 +61,26 @@ typedef BOOL (^OBConnectionResponseHandlerBlock)(NSDictionary *JSON, NSDictionar
 + (void)addOperation:(NSOperation *)theOperation;
 
 + (void)cancelAllConnections;
+
+
+
+// **************************
+//      setting up blocks
+// **************************
+
+// response handler
++ (void)setResponseHandlerBlock:(OBConnectionResponseHandlerBlock)responseHandlerBlock;
+
++ (OBConnectionResponseHandlerBlock)responseHandlerBlock;
+
+// security header request
++ (void)setBuildSecurityHeaderRequests:(OBConnectionBuildSecurityHeaderRequests)buildSecurityHeaderRequestsBlock;
+
++ (OBConnectionBuildSecurityHeaderRequests)buildSecurityHeaderRequests;
+
+// URL for certain resource
++ (void)setBuildURLForResourceBlock:(OBConnectionBuildURLForResourceBlock)buildURLForResourceBlock;
+
++ (OBConnectionBuildURLForResourceBlock)buildURLForResourceBlock;
 
 @end

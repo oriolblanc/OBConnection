@@ -8,10 +8,12 @@
 
 #import "OBRequest.h"
 
-@interface OBRequest ()
-    @property (nonatomic, retain) NSMutableDictionary *requestHeaderFields;
+#import "OBConnection.h"
 
-    + (id)requestWithIsPublic:(BOOL)_isPublic;
+@interface OBRequest ()
+@property(nonatomic, retain) NSMutableDictionary *requestHeaderFields;
+
++ (id)requestWithIsPublic:(BOOL)_isPublic;
 @end
 
 @implementation OBRequest
@@ -25,23 +27,20 @@
 
 #pragma mark - Static constrictors
 
-+ (id)requestWithIsPublic:(BOOL)_isPublic
-{
++ (id)requestWithIsPublic:(BOOL)_isPublic {
     return [[[self alloc] initWithIsPublic:_isPublic] autorelease];
 }
 
 + (id)requestWithType:(OBRequestMethodType)_method
              resource:(NSString *)_resource
-           parameters:(OBRequestParameters *)_parameters
-{
+           parameters:(OBRequestParameters *)_parameters {
     return [[[self alloc] initWithType:_method resource:_resource parameters:_parameters] autorelease];
 }
 
 + (id)requestWithType:(OBRequestMethodType)_method
              resource:(NSString *)_resource
            parameters:(OBRequestParameters *)_parameters
-             isPublic:(BOOL)_isPublic
-{
+             isPublic:(BOOL)_isPublic {
     return [[[self alloc] initWithType:_method resource:_resource parameters:_parameters isPublic:_isPublic] autorelease];
 }
 
@@ -49,8 +48,7 @@
              resource:(NSString *)_resource
            parameters:(OBRequestParameters *)_parameters
                 files:(OBRequestParameters *)_files
-             isPublic:(BOOL)_isPublic
-{
+             isPublic:(BOOL)_isPublic {
     return [[[self alloc] initWithType:_method resource:_resource parameters:_parameters files:_files isPublic:_isPublic] autorelease];
 }
 
@@ -58,25 +56,22 @@
 
 - (id)initWithType:(OBRequestMethodType)type
           resource:(NSString *)resource
-        parameters:(OBRequestParameters *)parameters
-{
+        parameters:(OBRequestParameters *)parameters {
     return [self initWithType:type resource:resource parameters:parameters files:nil isPublic:NO];
 }
 
 - (id)initWithType:(OBRequestMethodType)type
           resource:(NSString *)resource
         parameters:(OBRequestParameters *)parameters
-          isPublic:(BOOL)isPublic
-{
-    if ((self = [self initWithIsPublic:isPublic]))
-    {
+          isPublic:(BOOL)isPublic {
+    if ((self = [self initWithIsPublic:isPublic])) {
         self.requestType = type;
         self.parameters = parameters;
         self.files = nil;
-        
+
         [self buildURL:resource];
     }
-    
+
     return self;
 }
 
@@ -84,57 +79,51 @@
           resource:(NSString *)resource
         parameters:(OBRequestParameters *)parameters
              files:(OBRequestParameters *)files
-          isPublic:(BOOL)isPublic
-{
-    if ((self = [self initWithIsPublic:isPublic]) )
-    {
+          isPublic:(BOOL)isPublic {
+    if ((self = [self initWithIsPublic:isPublic])) {
         self.requestType = type;
         self.parameters = parameters;
         self.files = files;
-        
+
         [self buildURL:resource];
     }
-    
+
     return self;
 }
 
-- (id)initWithIsPublic:(BOOL)isPublic
-{
+- (id)initWithIsPublic:(BOOL)isPublic {
     self = [super init];
-    if (!self)
-    {
+    if (!self) {
         return nil;
     }
-    
+
     self.isPublic = isPublic;
     self.retryLaterOnFailure = NO;
     self.requestHeaderFields = [NSMutableDictionary dictionary];
-    
+
     return self;
 }
 
-- (void)buildURL:(NSString *)resource
-{
+- (void)buildURL:(NSString *)resource {
     NSString *buildUrl = nil;
-    
-    if (!self.isPublic)
-    {
-        buildUrl = [NSString stringWithFormat:@"secured/%@", resource];
+
+    OBConnectionBuildURLForResourceBlock buildURLBlock = [OBConnection buildURLForResourceBlock];
+
+    if (!self.isPublic && buildURLBlock != NULL) {
+        buildUrl = buildURLBlock(resource, self.isPublic);
     }
-    else
-    {
+    else {
         buildUrl = resource;
     }
-    
+
+
     self.resource = [buildUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }
 
 #pragma mark - NSCoding methods
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    if ((self = [super init]))
-    {
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    if ((self = [super init])) {
         self.requestType = [aDecoder decodeIntForKey:@"requestType"];
         self.resource = [aDecoder decodeObjectForKey:@"resource"];
         self.parameters = [aDecoder decodeObjectForKey:@"parameters"];
@@ -142,12 +131,11 @@
         self.isPublic = [aDecoder decodeBoolForKey:@"isPublic"];
         self.retryLaterOnFailure = [aDecoder decodeBoolForKey:@"retryLaterOnFailure"];
     }
-    
+
     return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
+- (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeInt:self.requestType forKey:@"requestType"];
     [aCoder encodeObject:self.resource forKey:@"resource"];
     [aCoder encodeObject:self.parameters forKey:@"parameters"];
@@ -158,20 +146,18 @@
 
 #pragma mark -
 
-- (NSString *)description
-{
+- (NSString *)description {
     return [NSString stringWithFormat:@"[OBRequest] URL: %@  parameters: %@", self.resource, self.parameters];
 }
 
 #pragma mark - Memory Management
 
-- (void)dealloc
-{
+- (void)dealloc {
     [_resource release];
     [_parameters release];
     [_files release];
     [_requestHeaderFields release];
-    
+
     [super dealloc];
 }
 
