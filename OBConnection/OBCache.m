@@ -55,7 +55,7 @@
         [self debugLog:@"Caching object %@ for key %@", object, key, nil];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[EGOCache currentCache] setData:data forKey:key withTimeoutInterval:kDataCacheDurationInSeconds];
+            [[EGOCache globalCache] setData:data forKey:key withTimeoutInterval:kDataCacheDurationInSeconds];
         });
         
     });
@@ -63,7 +63,7 @@
 
 + (id)cachedObjectForKey:(NSString *)key
 {
-    id cachedObject = [[EGOCache currentCache] dataForKey:key];
+    id cachedObject = [[EGOCache globalCache] dataForKey:key];
     
     if (cachedObject)
     {
@@ -81,13 +81,13 @@
 + (void)invalidateCachedObjectForKey:(NSString *)key
 {
     [self debugLog:@"Invalidating cached object for key ", key, nil];
-    [[EGOCache currentCache] removeCacheForKey:key];
+    [[EGOCache globalCache] removeCacheForKey:key];
 }
 
 + (void)invalidateAllCachedObjects
 {
     [self debugLog:@"Invalidating all cached objects", nil];
-    [[EGOCache currentCache] clearCache];
+    [[EGOCache globalCache] clearCache];
 }
 
 #pragma mark - Debug
