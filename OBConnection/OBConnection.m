@@ -185,6 +185,7 @@
             }];
 
             if (operation) {
+                [operation setShouldExecuteAsBackgroundTaskWithExpirationHandler:NULL];
                 [self.client.operationQueue addOperation:operation];
             }
         });
