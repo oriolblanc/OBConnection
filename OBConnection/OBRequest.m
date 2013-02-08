@@ -28,20 +28,20 @@
 #pragma mark - Static constrictors
 
 + (id)requestWithIsPublic:(BOOL)_isPublic {
-    return [[[self alloc] initWithIsPublic:_isPublic] autorelease];
+    return [[self alloc] initWithIsPublic:_isPublic];
 }
 
 + (id)requestWithType:(OBRequestMethodType)_method
              resource:(NSString *)_resource
            parameters:(OBRequestParameters *)_parameters {
-    return [[[self alloc] initWithType:_method resource:_resource parameters:_parameters] autorelease];
+    return [[self alloc] initWithType:_method resource:_resource parameters:_parameters];
 }
 
 + (id)requestWithType:(OBRequestMethodType)_method
              resource:(NSString *)_resource
            parameters:(OBRequestParameters *)_parameters
              isPublic:(BOOL)_isPublic {
-    return [[[self alloc] initWithType:_method resource:_resource parameters:_parameters isPublic:_isPublic] autorelease];
+    return [[self alloc] initWithType:_method resource:_resource parameters:_parameters isPublic:_isPublic];
 }
 
 + (id)requestWithType:(OBRequestMethodType)_method
@@ -49,7 +49,7 @@
            parameters:(OBRequestParameters *)_parameters
                 files:(OBRequestParameters *)_files
              isPublic:(BOOL)_isPublic {
-    return [[[self alloc] initWithType:_method resource:_resource parameters:_parameters files:_files isPublic:_isPublic] autorelease];
+    return [[self alloc] initWithType:_method resource:_resource parameters:_parameters files:_files isPublic:_isPublic];
 }
 
 #pragma mark - Instance constrictors
@@ -142,17 +142,6 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"[OBRequest] URL: %@  parameters: %@", self.resource, self.parameters];
-}
-
-#pragma mark - Memory Management
-
-- (void)dealloc {
-    [_resource release];
-    [_parameters release];
-    [_files release];
-    [_requestHeaderFields release];
-
-    [super dealloc];
 }
 
 @end

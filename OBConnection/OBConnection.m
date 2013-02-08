@@ -65,7 +65,6 @@
 
     AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:baseUrl];
     connection.client = client;
-    [client release];
 }
 
 
@@ -135,7 +134,7 @@
             }
 
             // we should authenticate the session for private requests
-            NSMutableDictionary *allHeaders = [[request.allHTTPHeaderFields mutableCopy] autorelease];
+            NSMutableDictionary *allHeaders = [request.allHTTPHeaderFields mutableCopy];
             if (!wsRequest.isPublic) {
                 NSDictionary *securityHeader = self.buildSecurityHeaderRequestBlock();
                 if (securityHeader != nil) {
@@ -256,13 +255,7 @@
 #pragma mark - Memory Management
 
 - (void)dealloc {
-    if (_responseHandlerBlock != NULL) {
-        [_responseHandlerBlock release];
-    }
-    [_client release];
     dispatch_release(self.connectionDispatchQueue);
-
-    [super dealloc];
 }
 
 @end

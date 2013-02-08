@@ -15,7 +15,7 @@
 {
     OBRequestParameters *requestParameters = [[OBRequestParameters alloc] init];
     
-    return [requestParameters autorelease];
+    return requestParameters;
 }
 
 - (id)init
@@ -34,7 +34,7 @@
 {
     if ((self = [super init]))
     {
-        _parametersDictionary = [[aDecoder decodeObjectForKey:@"parametersDictionary"] retain];
+        _parametersDictionary = [aDecoder decodeObjectForKey:@"parametersDictionary"];
     }
     
     return self;
@@ -67,15 +67,6 @@
 - (NSDictionary *)parametersDictionary
 {
     return (_parametersDictionary.allKeys.count == 0) ? nil : _parametersDictionary;
-}
-
-#pragma mark - Memory Mangement
-
-- (void)dealloc
-{
-    [_parametersDictionary release];
-    
-    [super dealloc];
 }
 
 @end

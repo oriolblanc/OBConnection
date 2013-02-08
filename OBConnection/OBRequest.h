@@ -16,12 +16,12 @@ typedef enum {
 
 @interface OBRequest : NSObject
 
-@property (nonatomic, retain) NSString *resource;
-@property (nonatomic, retain) OBRequestParameters *parameters;
-@property (nonatomic, retain) OBRequestParameters *files;
-@property (nonatomic, assign) OBRequestMethodType requestType;
-@property (nonatomic, assign) BOOL isPublic;
-@property (nonatomic, assign) BOOL retryLaterOnFailure;
+@property (nonatomic, strong) NSString *resource;
+@property (nonatomic, strong) OBRequestParameters *parameters;
+@property (nonatomic, strong) OBRequestParameters *files;
+@property (nonatomic) OBRequestMethodType requestType;
+@property (nonatomic) BOOL isPublic;
+@property (nonatomic) BOOL retryLaterOnFailure;
 
 + (id)requestWithType:(OBRequestMethodType)_method
              resource:(NSString *)_resource

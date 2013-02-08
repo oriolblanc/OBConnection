@@ -7,7 +7,7 @@
 //
 
 @interface OBCache : NSObject
-@property (nonatomic, assign) BOOL debug;
+@property (nonatomic) BOOL debug;
 
 + (OBCache *)instance;
 

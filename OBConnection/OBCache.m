@@ -47,7 +47,7 @@
     
     if ([objectToArchive isKindOfClass:[NSMutableArray class]] || [objectToArchive isKindOfClass:[NSMutableDictionary class]] || [objectToArchive isKindOfClass:[NSMutableSet class]]) // If its'a mutable collection, make a copy to avoid it being mutated while archiving
     {
-        objectToArchive = [[(NSObject *)object copy] autorelease];
+        objectToArchive = [(NSObject *)object copy];
     }
     
     dispatch_async([self instance].cacheQueue, ^{
@@ -100,7 +100,7 @@
     {
         va_list vl;
         va_start(vl, debug);
-        NSString* formattedDebug = [[[NSString alloc] initWithFormat:debug arguments:vl] autorelease];
+        NSString* formattedDebug = [[NSString alloc] initWithFormat:debug arguments:vl];
         va_end(vl);
         NSLog(@"[%@] %@", NSStringFromClass([self class]), formattedDebug);
     }
@@ -112,8 +112,6 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     dispatch_release(_cacheQueue);
-    
-    [super dealloc];
 }
 
 @end

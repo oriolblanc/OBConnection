@@ -8,7 +8,7 @@
 
 @interface OBRequestParameters : NSObject
 
-@property (nonatomic, retain) NSDictionary *parametersDictionary;
+@property (nonatomic, strong) NSDictionary *parametersDictionary;
 
 + (OBRequestParameters *)emptyRequestParameters;
 
