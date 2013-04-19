@@ -109,7 +109,14 @@
 
     OBConnectionBuildURLForResourceBlock buildURLBlock = [OBConnection buildURLForResourceBlock];
 
-    buildUrl = buildURLBlock(resource, !self.isPublic);
+    if (buildURLBlock != NULL)
+    {
+        buildUrl = buildURLBlock(resource, !self.isPublic);
+    }
+    else
+    {
+        buildUrl = resource;
+    }
     
     self.resource = [buildUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }

@@ -136,9 +136,13 @@
             // we should authenticate the session for private requests
             NSMutableDictionary *allHeaders = [request.allHTTPHeaderFields mutableCopy];
             if (!wsRequest.isPublic) {
-                NSDictionary *securityHeader = self.buildSecurityHeaderRequestBlock();
-                if (securityHeader != nil) {
-                    [allHeaders addEntriesFromDictionary:securityHeader];
+                
+                if (self.buildSecurityHeaderRequestBlock != NULL)
+                {
+                    NSDictionary *securityHeader = self.buildSecurityHeaderRequestBlock();
+                    if (securityHeader != nil) {
+                        [allHeaders addEntriesFromDictionary:securityHeader];
+                    }
                 }
             }
             [request setAllHTTPHeaderFields:allHeaders];
@@ -171,7 +175,10 @@
 
             }                                                                                   failure:^(NSURLRequest *request, NSURLResponse *response, NSError *error, id JSON) {
 
-                self.responseHandlerBlock(JSON, [(NSHTTPURLResponse *) response allHeaderFields]);
+                if (self.responseHandlerBlock != NULL)
+                {
+                    self.responseHandlerBlock(JSON, [(NSHTTPURLResponse *) response allHeaderFields]);
+                }
 
                 if (errorCallback) {
                     errorCallback(JSON, error);
