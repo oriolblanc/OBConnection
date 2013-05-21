@@ -18,7 +18,7 @@
 @interface OBConnection ()
 @property(nonatomic, retain) AFHTTPClient *client;
 @property(nonatomic, assign) BOOL authenticated;
-@property(nonatomic, assign) dispatch_queue_t connectionDispatchQueue;
+@property(nonatomic, strong) dispatch_queue_t connectionDispatchQueue;
 
 - (void)makeRequest:(OBRequest *)wsRequest
             success:(OBConnectionSuccessCallback)successCallback
@@ -258,11 +258,5 @@
     return [self instance].buildURLForResourceBlock;
 }
 
-
-#pragma mark - Memory Management
-
-- (void)dealloc {
-    dispatch_release(self.connectionDispatchQueue);
-}
 
 @end

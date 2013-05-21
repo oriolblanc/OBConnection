@@ -14,7 +14,7 @@
 #define kDataCacheDurationInSeconds 604800 // 7 days
 
 @interface OBCache ()
-    @property (nonatomic, assign) dispatch_queue_t cacheQueue;
+    @property (nonatomic, strong) dispatch_queue_t cacheQueue;
 
     + (void)debugLog:(NSString *)debug, ... NS_REQUIRES_NIL_TERMINATION;
 @end
@@ -111,7 +111,6 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    dispatch_release(_cacheQueue);
 }
 
 @end
