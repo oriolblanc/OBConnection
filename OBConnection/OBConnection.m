@@ -18,7 +18,7 @@
 @interface OBConnection ()
 @property(nonatomic, retain) AFHTTPClient *client;
 @property(nonatomic, assign) BOOL authenticated;
-@property(nonatomic, strong) dispatch_queue_t connectionDispatchQueue;
+@property(nonatomic, assign) dispatch_queue_t connectionDispatchQueue;
 
 - (void)makeRequest:(OBRequest *)wsRequest
             success:(OBConnectionSuccessCallback)successCallback
@@ -47,8 +47,10 @@
         myInstance = [[self alloc] init];
         myInstance.connectionDispatchQueue = dispatch_queue_create("WebProxyDispatchQueue", DISPATCH_QUEUE_CONCURRENT);
         [myInstance setAuthenticated:NO];
-
+        
+        #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
         [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
+        #endif
     });
 
     return myInstance;
@@ -84,6 +86,26 @@
 
 #pragma mark - Request
 
+- (void)updateFormData:(id)formData obj:(id)obj key:(id)key
+{
+    NSData *imageData = nil;
+    #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
+    if ([obj isKindOfClass:[UIImage class]]) {
+        UIImage *image = (UIImage *) obj;
+        imageData = UIImageJPEGRepresentation(image, 0.75);
+    }
+    #else
+    if ([obj isKindOfClass:[NSImage class]]) {
+        NSImage *image = (NSImage *) obj;
+        imageData = [NSBitmapImageRep representationOfImageRepsInArray:[image representations] usingType: NSJPEGFileType properties:nil];
+    }
+    #endif
+    
+    if (imageData) {
+        [formData appendPartWithFileData:imageData name:[NSString stringWithFormat:@"%@", key] fileName:key mimeType:@"image/jpeg"];
+    }
+}
+
 - (void)makeRequest:(OBRequest *)wsRequest
        withCacheKey:(NSString *)cacheKey
          parseBlock:(OBConnectionDataParsingBlock)parsingBlock
@@ -115,14 +137,7 @@
                     request = [self.client multipartFormRequestWithMethod:@"POST" path:wsRequest.resource parameters:[wsRequest.parameters parametersDictionary] constructingBodyWithBlock:^(id <AFMultipartFormData> formData) {
 
                         [[wsRequest.files parametersDictionary] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-                            if ([obj isKindOfClass:[UIImage class]]) {
-                                UIImage *image = (UIImage *) obj;
-                                if ([image respondsToSelector:@selector(fixOrientation)]) {
-                                    [image performSelector:@selector(fixOrientation)];
-                                }
-                                NSData *imageData = UIImageJPEGRepresentation(image, 0.75);
-                                [formData appendPartWithFileData:imageData name:[NSString stringWithFormat:@"%@", key] fileName:@"photo.png" mimeType:@"image/jpeg"];
-                            }
+                            [self updateFormData:formData obj:obj key:key];
                         }];
                     }];
                     break;
@@ -191,7 +206,9 @@
             }];
 
             if (operation) {
+                #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
                 [operation setShouldExecuteAsBackgroundTaskWithExpirationHandler:NULL];
+                #endif
                 [self.client.operationQueue addOperation:operation];
             }
         });
