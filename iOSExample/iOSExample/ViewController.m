@@ -9,48 +9,33 @@
 #import "ViewController.h"
 
 @interface ViewController ()
-    - (IBAction)uploadButtonPressed:(id)sender;
-    - (void)uploadImage:(UIImage *)imageToUpload;
+    - (IBAction)getIPButtonPressed:(id)sender;
+    @property (retain, nonatomic) IBOutlet UILabel *ipLabel;
 @end
 
 @implementation ViewController
 
-- (IBAction)uploadButtonPressed:(id)sender
+- (IBAction)getIPButtonPressed:(id)sender
 {
-    UIImagePickerController *picker = [[[UIImagePickerController alloc] init] autorelease];
-    picker.delegate = self;
-    picker.allowsEditing = YES;
+    self.ipLabel.text = @"";
     
-    [self presentModalViewController:picker animated:YES];
-}
-
-- (void)uploadImage:(UIImage *)imageToUpload
-{
-    OBRequestParameters *parameters = [OBRequestParameters emptyRequestParameters];
-    [parameters setValue:@"8a7539e238429a6b0138429b3b0a0001" forKey:@"userId"];
+    OBRequest *getIPRequest = [OBRequest requestWithType:OBRequestMethodTypeMethodGET resource:@"ip" parameters:nil files:nil isPublic:YES];
     
-    OBRequestParameters *files = [OBRequestParameters emptyRequestParameters];
-    [files setValue:imageToUpload forKey:@"avatar"];
-    
-    OBRequest *uploadImageRequest = [OBRequest requestWithType:OBRequestMethodTypeMultiForm resource:@"post.php?dir=example" parameters:parameters files:files isPublic:YES];
-    
-    [OBConnection makeRequest:uploadImageRequest success:^(id data, BOOL cached) {
-        NSLog(@"success");
+    [OBConnection makeRequest:getIPRequest success:^(id data, BOOL cached) {
+        self.ipLabel.text = [data objectForKey:@"origin"];
     } error:^(id data, NSError *error) {
-        NSLog(@"error");
+        self.ipLabel.text = @"error";
     }];
 }
 
-#pragma mark - UIImagePickerController
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-    [picker dismissModalViewControllerAnimated:YES];
-    
-    // Access the uncropped image from info dictionary
-    UIImage * image = [info objectForKey:@"UIImagePickerControllerEditedImage"];
-    [self uploadImage:image];
+- (void)dealloc {
+    [_ipLabel release];
+    [super dealloc];
 }
 
+- (void)viewDidUnload {
+    [self setIpLabel:nil];
+    [super viewDidUnload];
+}
 
 @end
