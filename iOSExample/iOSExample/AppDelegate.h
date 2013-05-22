@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "OBConnection.h"
+#import <OBConnection/OBConnection.h>
 
 @class ViewController;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, OBConnectionDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
