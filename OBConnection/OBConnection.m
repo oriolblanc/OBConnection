@@ -184,7 +184,7 @@
                 }
                 else {
                     if (errorCallback) {
-                        errorCallback(nil, nil); // @todo: Should create a proper NSError here
+                        errorCallback(JSON, nil); // @todo: Should create a proper NSError here
                     }
                 }
 
