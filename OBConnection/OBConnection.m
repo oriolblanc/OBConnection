@@ -102,7 +102,7 @@
     #endif
     
     if (imageData) {
-        [formData appendPartWithFileData:imageData name:[NSString stringWithFormat:@"%@", key] fileName:key mimeType:@"image/jpeg"];
+        [formData appendPartWithFileData:imageData name:[NSString stringWithFormat:@"%@", key] fileName:[NSString stringWithFormat:@"%@.JPG", key] mimeType:@"image/jpeg"];
     }
 }
 
@@ -117,7 +117,10 @@
             id cachedData = [OBCache cachedObjectForKey:cacheKey];
             if (cachedData) {
                 dispatch_sync(dispatch_get_main_queue(), ^{
-                    successCallback(cachedData, YES);
+                    if (successCallback != NULL)
+                    {
+                        successCallback(cachedData, YES);
+                    }
                 });
             }
         }
