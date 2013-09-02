@@ -12,6 +12,8 @@ typedef enum {
     OBRequestMethodTypeMultiForm       = 300,
 } OBRequestMethodType;
 
+typedef double OBRequestTimeoutInterval;
+
 @class OBRequestParameters;
 
 @interface OBRequest : NSObject
@@ -22,6 +24,9 @@ typedef enum {
 @property (nonatomic) OBRequestMethodType requestType;
 @property (nonatomic) BOOL isPublic;
 @property (nonatomic) BOOL retryLaterOnFailure;
+
+//The default timeout interval is 60 seconds.
+@property (nonatomic) OBRequestTimeoutInterval timeoutInterval;
 
 + (id)requestWithType:(OBRequestMethodType)_method
              resource:(NSString *)_resource

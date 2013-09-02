@@ -10,6 +10,8 @@
 
 #import "OBConnection.h"
 
+#define kDefaultTimeout 60
+
 @interface OBRequest ()
 @property(nonatomic, retain) NSMutableDictionary *requestHeaderFields;
 
@@ -99,6 +101,7 @@
 
     self.isPublic = isPublic;
     self.retryLaterOnFailure = NO;
+    self.timeoutInterval = kDefaultTimeout;
     self.requestHeaderFields = [NSMutableDictionary dictionary];
 
     return self;

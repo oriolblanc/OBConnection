@@ -151,6 +151,8 @@
                 }
             }
 
+        [request setTimeoutInterval:wsRequest.timeoutInterval];
+
             // we should authenticate the session for private requests
             NSMutableDictionary *allHeaders = [request.allHTTPHeaderFields mutableCopy];
             if (!wsRequest.isPublic) {
