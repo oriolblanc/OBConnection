@@ -32,6 +32,11 @@ typedef NSString *(^OBConnectionBuildURLForResourceBlock)(NSString *resource, BO
 @property(nonatomic, copy) OBConnectionBuildSecurityHeaderRequests buildSecurityHeaderRequestBlock;
 @property(nonatomic, copy) OBConnectionBuildURLForResourceBlock buildURLForResourceBlock;
 
+/**
+ Whether the connections created with makeRequest:success:error should accept an invalid SSL certificate.
+ */
+@property(nonatomic) BOOL allowsInvalidSSLCertificate;
+
 // **************************
 //      Register 
 // **************************
@@ -40,6 +45,10 @@ typedef NSString *(^OBConnectionBuildURLForResourceBlock)(NSString *resource, BO
 
 + (void)registerWithBaseUrl:(NSURL *)baseUrl
        responseHandlerBlock:(OBConnectionResponseHandlerBlock)responseHandlerBlock;
+
++ (void)registerWithBaseUrl:(NSURL *)baseUrl
+       responseHandlerBlock:(OBConnectionResponseHandlerBlock)responseHandlerBlock
+allowingInvalidSSLCertificate:(BOOL)allowing;
 
 // **************************
 //      Request

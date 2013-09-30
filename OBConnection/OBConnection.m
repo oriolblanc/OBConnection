@@ -62,13 +62,19 @@
 
 + (void)registerWithBaseUrl:(NSURL *)baseUrl
        responseHandlerBlock:(OBConnectionResponseHandlerBlock)responseHandlerBlock {
+    [self registerWithBaseUrl:baseUrl responseHandlerBlock:responseHandlerBlock allowingInvalidSSLCertificate:NO];
+}
+
++ (void)registerWithBaseUrl:(NSURL *)baseUrl
+       responseHandlerBlock:(OBConnectionResponseHandlerBlock)responseHandlerBlock
+allowingInvalidSSLCertificate:(BOOL)allowing {
     OBConnection *connection = [OBConnection instance];
     connection.responseHandlerBlock = responseHandlerBlock;
-
+    connection.allowsInvalidSSLCertificate = allowing;
+    
     AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:baseUrl];
     connection.client = client;
 }
-
 
 + (void)makeRequest:(OBRequest *)wsRequest
             success:(OBConnectionSuccessCallback)successCallback
@@ -211,6 +217,7 @@
             }];
 
             if (operation) {
+                operation.allowsInvalidSSLCertificate = self.allowsInvalidSSLCertificate;
                 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
                 [operation setShouldExecuteAsBackgroundTaskWithExpirationHandler:NULL];
                 #endif
