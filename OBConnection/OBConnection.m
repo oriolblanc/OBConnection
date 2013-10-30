@@ -155,6 +155,10 @@ allowingInvalidSSLCertificate:(BOOL)allowing {
                     request = [self.client requestWithMethod:@"POST" path:wsRequest.resource parameters:[wsRequest.parameters parametersDictionary]];
                     break;
                 }
+                case OBRequestMethodTypeMethodPUT: {
+                    request = [self.client requestWithMethod:@"PUT" path:wsRequest.resource parameters:[wsRequest.parameters parametersDictionary]];
+                    break;
+                }
             }
 
         [request setTimeoutInterval:wsRequest.timeoutInterval];

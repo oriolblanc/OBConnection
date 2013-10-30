@@ -6,11 +6,12 @@
 //  Copyright (c) 2012 Oriol Blanc. All rights reserved.
 //
 
-typedef enum {
-    OBRequestMethodTypeMethodGET       = 100,
-    OBRequestMethodTypeMethodPOST      = 200,
-    OBRequestMethodTypeMultiForm       = 300,
-} OBRequestMethodType;
+typedef NS_ENUM(NSUInteger, OBRequestMethodType){
+    OBRequestMethodTypeMethodGET,
+    OBRequestMethodTypeMethodPOST,
+    OBRequestMethodTypeMethodPUT,
+    OBRequestMethodTypeMultiForm
+};
 
 typedef double OBRequestTimeoutInterval;
 
