@@ -159,6 +159,10 @@ allowingInvalidSSLCertificate:(BOOL)allowing {
                     request = [self.client requestWithMethod:@"PUT" path:wsRequest.resource parameters:[wsRequest.parameters parametersDictionary]];
                     break;
                 }
+                case OBRequestMethodTypeMethodDELETE: {
+                    request = [self.client requestWithMethod:@"DELETE" path:wsRequest.resource parameters:[wsRequest.parameters parametersDictionary]];
+                    break;
+                }
             }
 
         [request setTimeoutInterval:wsRequest.timeoutInterval];

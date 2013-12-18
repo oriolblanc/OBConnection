@@ -10,6 +10,7 @@ typedef NS_ENUM(NSUInteger, OBRequestMethodType){
     OBRequestMethodTypeMethodGET,
     OBRequestMethodTypeMethodPOST,
     OBRequestMethodTypeMethodPUT,
+    OBRequestMethodTypeMethodDELETE,
     OBRequestMethodTypeMultiForm
 };
 
